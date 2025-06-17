@@ -13,13 +13,13 @@ import java.sql.SQLException;
 
 public class AddContactView {
     private Connection connection;
-    private ContactHelper contactHelper;
+    private DatabaseHelper dbHelper;
 
     private VBox layout;
 
     public AddContactView(Connection connection){
         this.connection = connection;
-        this.contactHelper = new ContactHelper(connection);
+        this.dbHelper = new DatabaseHelper(connection);
 
         layout = new VBox(10);
         layout.setPadding(new Insets(20));
@@ -50,7 +50,7 @@ public class AddContactView {
             try {
 
                 Contact contact = new Contact(name, num, email, address);
-                contactHelper.save(contact);
+                dbHelper.save(contact);
                 confirmationText.setText("Contact added:\n" + contact);
 
             } catch (SQLException e){
