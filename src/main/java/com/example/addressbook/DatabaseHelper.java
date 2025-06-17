@@ -39,9 +39,16 @@ public class DatabaseHelper {
                         rs.getString("address")
                 ));
             }
-
-
         }
         return contactList;
+    }
+
+    public boolean deleteContact(Contact contact) throws SQLException {
+        String sql = String.format("DELETE FROM address WHERE name='%s';", contact.getName());
+        try(Statement stmt = connection.createStatement()){
+            Integer rowsAffected =  stmt.executeUpdate(sql);
+            return rowsAffected > 0;
+        }
+
     }
 }

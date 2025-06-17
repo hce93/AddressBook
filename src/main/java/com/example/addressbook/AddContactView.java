@@ -36,10 +36,8 @@ public class AddContactView {
         TextField addressField = new TextField();
         addressField.setPromptText("Enter address");
 
-
         Button submitButton = new Button("Submit");
         Text confirmationText = new Text();
-        System.out.println("Made it!!!");
 
         submitButton.setOnAction(submitted -> {
             String name = nameField.getText();
