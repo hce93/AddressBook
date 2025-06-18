@@ -1,5 +1,7 @@
-package com.example.addressbook;
+package com.example.addressbook.view;
 
+import com.example.addressbook.util.AlertManager;
+import com.example.addressbook.controller.ViewManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;

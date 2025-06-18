@@ -1,4 +1,7 @@
-package com.example.addressbook;
+package com.example.addressbook.util;
+
+import com.example.addressbook.controller.ViewManager;
+import com.example.addressbook.model.Contact;
 
 import java.sql.*;
 import java.util.ArrayList;

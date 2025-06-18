@@ -1,5 +1,6 @@
 package com.example.addressbook;
 
+import com.example.addressbook.controller.ViewManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

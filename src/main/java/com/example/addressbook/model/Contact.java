@@ -1,4 +1,4 @@
-package com.example.addressbook;
+package com.example.addressbook.model;
 
 import java.util.regex.Pattern;
 

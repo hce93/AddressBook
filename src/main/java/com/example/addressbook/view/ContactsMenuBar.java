@@ -1,5 +1,6 @@
-package com.example.addressbook;
+package com.example.addressbook.view;
 
+import com.example.addressbook.controller.ViewManager;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;

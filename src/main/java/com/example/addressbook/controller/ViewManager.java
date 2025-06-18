@@ -1,5 +1,8 @@
-package com.example.addressbook;
+package com.example.addressbook.controller;
 
+import com.example.addressbook.model.Contact;
+import com.example.addressbook.util.DatabaseHelper;
+import com.example.addressbook.view.*;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;

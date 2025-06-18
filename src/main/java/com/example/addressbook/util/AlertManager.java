@@ -1,5 +1,6 @@
-package com.example.addressbook;
+package com.example.addressbook.util;
 
+import com.example.addressbook.model.Contact;
 import javafx.scene.control.Alert;
 
 import java.sql.SQLException;
