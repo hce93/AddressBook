@@ -27,21 +27,27 @@ public class ViewManager {
     public static void loginView() {
         LoginView login = new LoginView();
         primaryStage.setScene(createScene(login.getLoginView()));
+        primaryStage.setTitle("Database Login");
     }
 
     public static void contactsView(){
         ContactsView view = new ContactsView();
         primaryStage.setScene(createScene(view.getView()));
+        primaryStage.setHeight(500);
+        primaryStage.setWidth(500);
+        primaryStage.setTitle("Contacts");
     }
 
     public static void addContactsView(){
         AddContactView view = new AddContactView();
         primaryStage.setScene(createScene(view.getView()));
+        primaryStage.setTitle("Add Contacts");
     }
 
     public static void editContactsView(Contact contact){
         EditContactView view = new EditContactView(contact);
         primaryStage.setScene(createScene(view.getView()));
+        primaryStage.setTitle("Edit Contact");
     }
 
     private static Scene createScene(GridPane view){

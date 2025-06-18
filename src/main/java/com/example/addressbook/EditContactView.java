@@ -9,10 +9,7 @@ import javafx.scene.layout.VBox;
 import java.sql.SQLException;
 
 public class EditContactView {
-
     private Contact contact;
-
-
     private VBox layout;
 
     public EditContactView(Contact contact) {
@@ -38,6 +35,7 @@ public class EditContactView {
         addressField.setPromptText("Enter address");
 
         Button submitButton = new Button("Submit");
+        submitButton.setDefaultButton(true);
         submitButton.setOnAction(submitted -> {
             String name = nameField.getText();
             String num = numberField.getText();
@@ -49,12 +47,9 @@ public class EditContactView {
                 if(ViewManager.getDbHelper().editContact(this.contact.getName(), newContact)){
                     ViewManager.contactsView();
                 }
-
             } catch (SQLException e){
                 e.printStackTrace();
             }
-
-
         });
 
         layout.getChildren().addAll(
@@ -64,7 +59,6 @@ public class EditContactView {
                 new Label("Address:"), addressField,
                 submitButton
         );
-
     }
 
     public VBox getView() {

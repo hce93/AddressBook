@@ -6,12 +6,6 @@ import java.util.List;
 
 public class DatabaseHelper {
 
-    private Connection connection;
-
-    public DatabaseHelper(){
-        this.connection = ViewManager.getConnection();
-    }
-
     public void save(Contact contact) throws SQLException {
         String sql = "INSERT INTO address (name, number, email, address) VALUES (?, ?, ?, ?)";
 

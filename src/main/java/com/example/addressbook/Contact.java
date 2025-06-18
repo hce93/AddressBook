@@ -10,7 +10,6 @@ public class Contact {
 
     //constructor
     public Contact(String name, String number, String email, String address){
-
         if (name==null || name.isBlank()) throw new IllegalArgumentException("No name passed");
         if (address==null || address.isBlank()) throw new IllegalArgumentException("No address passed");
         if (!emailIsValid(email)) throw new IllegalArgumentException("Not a valid email" + email);
@@ -20,7 +19,6 @@ public class Contact {
         this.number = number;
         this.email = email;
         this.address = address;
-
     }
 
     public String getEmail() {
@@ -55,7 +53,5 @@ public class Contact {
         String numRegex = "^0[7-9][0-9]{9}";
         Pattern p = Pattern.compile(numRegex);
         return number != null & p.matcher(number).matches();
-
-
     }
 }

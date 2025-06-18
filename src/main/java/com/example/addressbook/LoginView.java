@@ -1,11 +1,8 @@
 package com.example.addressbook;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 import java.sql.Connection;
@@ -16,12 +13,7 @@ import java.util.Arrays;
 public class LoginView {
     private final static String CONN_STRING = "jdbc:mysql://localhost:3306/address_book";
     public GridPane getLoginView(){
-//        BorderPane root = new BorderPane();
-        GridPane loginGrid = getLoginGrid();
-
-//        root.setCenter(loginGrid);
-//        Scene scene = new Scene(root);
-        return loginGrid;
+        return getLoginGrid();
     }
 
     private GridPane getLoginGrid(){
@@ -48,7 +40,6 @@ public class LoginView {
         Button btn = new Button("Login");
         btn.setDefaultButton(true);
 
-
         btn.setOnAction(event -> {
             String username = userTextField.getText();
             String password = pwBox.getText();
@@ -57,8 +48,7 @@ public class LoginView {
                 Connection connection = DriverManager.getConnection(
                         CONN_STRING, username, password);
                 ViewManager.setConn(connection);
-                ViewManager.addContactsView();
-
+                ViewManager.contactsView();
                 //remove logged password once logged in
                 Arrays.fill(password.toCharArray(), ' ');
 
@@ -71,39 +61,8 @@ public class LoginView {
                 e.printStackTrace();
             }
             pwBox.clear();
-
         });
-
         grid.add(btn, 1,3);
         return grid;
-
-    }
-
-    public MenuBar getMenu(BorderPane root, Connection conn){
-        Menu m = new Menu("Menu");
-        MenuItem m1 = new MenuItem("Contacts");
-        m1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                ContactsView contactView = new ContactsView();
-                root.setCenter(contactView.getView());
-            }
-        });
-        MenuItem m2 = new MenuItem("Add Contacts");
-        m2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                ViewManager.addContactsView();
-//                AddContactView view = new AddContactView(conn);
-//                root.setCenter(view.getView());
-            }
-        });
-
-        m.getItems().add(m1);
-        m.getItems().add(m2);
-        MenuBar mb = new MenuBar();
-        mb.getMenus().add(m);
-
-        return mb;
     }
 }

@@ -6,18 +6,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import java.sql.SQLException;
 
 public class AddContactView {
-    private DatabaseHelper dbHelper;
 
     private VBox layout;
 
     public AddContactView(){
-
-        this.dbHelper = new DatabaseHelper();
 
         layout = new VBox(10);
         layout.setPadding(new Insets(20));
@@ -35,7 +31,7 @@ public class AddContactView {
         addressField.setPromptText("Enter address");
 
         Button submitButton = new Button("Submit");
-        Text confirmationText = new Text();
+        submitButton.setDefaultButton(true);
 
         submitButton.setOnAction(submitted -> {
             String name = nameField.getText();
@@ -44,10 +40,9 @@ public class AddContactView {
             String address = addressField.getText();
 
             try {
-
                 Contact contact = new Contact(name, num, email, address);
-                dbHelper.save(contact);
-                confirmationText.setText("Contact added:\n" + contact);
+                ViewManager.getDbHelper().save(contact);
+                ViewManager.contactsView();
 
             } catch (SQLException e){
                 Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
@@ -69,10 +64,8 @@ public class AddContactView {
                 new Label("Number:"), numberField,
                 new Label("Email:"), emailField,
                 new Label("Address:"), addressField,
-                submitButton,
-                confirmationText
+                submitButton
         );
-
     }
 
     public VBox getView() {
