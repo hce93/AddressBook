@@ -41,13 +41,18 @@ public class EditContactView {
             String num = numberField.getText();
             String email = emailField.getText();
             String address = addressField.getText();
-
-            Contact newContact = new Contact(name, num, email, address);
+            Contact newContact = null;
+            try{
+                newContact = new Contact(name, num, email, address);
+            } catch (IllegalArgumentException e){
+                AlertManager.createErrorAlert(e.getMessage(), "DataValidation Error");
+            }
             try{
                 if(ViewManager.getDbHelper().editContact(this.contact.getName(), newContact)){
                     ViewManager.contactsView();
                 }
             } catch (SQLException e){
+                AlertManager.generateSaveDataError(e, newContact);
                 e.printStackTrace();
             }
         });

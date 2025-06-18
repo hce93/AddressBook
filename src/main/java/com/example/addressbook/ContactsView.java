@@ -1,7 +1,6 @@
 package com.example.addressbook;
 
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -46,11 +45,9 @@ public class ContactsView {
                             ViewManager.contactsView();
                         }
                     } catch (SQLException e) {
+                        AlertManager.createErrorAlert(
+                                "Unable to delete user: " + name, "Database Error");
                         e.printStackTrace();
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText("Unable to delete user: " + name);
-                        alert.setTitle("Database Error");
-                        alert.showAndWait();
                     }
                 });
 

@@ -1,7 +1,6 @@
 package com.example.addressbook;
 
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -38,24 +37,18 @@ public class AddContactView {
             String num = numberField.getText();
             String email = emailField.getText();
             String address = addressField.getText();
-
+            Contact contact = null;
+            try{
+                contact = new Contact(name, num, email, address);
+            } catch (IllegalArgumentException e){
+                AlertManager.createErrorAlert(e.getMessage(), "DataValidation Error");
+                e.printStackTrace();
+            }
             try {
-                Contact contact = new Contact(name, num, email, address);
                 ViewManager.getDbHelper().save(contact);
                 ViewManager.contactsView();
-
-            } catch (SQLException e){
-                Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
-                alert.setContentText(e.getMessage());
-                alert.setTitle("Database Error");
-                alert.showAndWait();
-                e.printStackTrace();
-            } catch (IllegalArgumentException e){
-                Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
-                alert.setContentText(e.getMessage());
-                alert.setTitle("Data Validation Error");
-                alert.showAndWait();
-                e.printStackTrace();
+            } catch (SQLException e) {
+                AlertManager.generateSaveDataError(e, contact);
             }
         });
 
@@ -69,7 +62,6 @@ public class AddContactView {
     }
 
     public VBox getView() {
-//        Scene addContactScene = new Scene(layout);
         return layout;
     }
 }

@@ -53,11 +53,8 @@ public class LoginView {
                 Arrays.fill(password.toCharArray(), ' ');
 
             } catch (SQLException e) {
-                Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
-                alert.setContentText("Access Denied. Please try again");
-                alert.setTitle("Database Error");
-                alert.showAndWait();
-                e.printStackTrace();
+                AlertManager.createErrorAlert(
+                        "Access Denied. Please try again","Database Error");
                 e.printStackTrace();
             }
             pwBox.clear();
