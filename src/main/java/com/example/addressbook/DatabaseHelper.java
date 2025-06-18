@@ -8,14 +8,14 @@ public class DatabaseHelper {
 
     private Connection connection;
 
-    public DatabaseHelper(Connection connection){
-        this.connection = connection;
+    public DatabaseHelper(){
+        this.connection = ViewManager.getConnection();
     }
 
     public void save(Contact contact) throws SQLException {
         String sql = "INSERT INTO address (name, number, email, address) VALUES (?, ?, ?, ?)";
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try(PreparedStatement stmt = ViewManager.getConnection().prepareStatement(sql)){
             stmt.setString(1, contact.getName());
             stmt.setString(2, contact.getNumber().toString());
             stmt.setString(3, contact.getEmail());
@@ -28,7 +28,7 @@ public class DatabaseHelper {
         List<Contact> contactList = new ArrayList<>();
 
         String sql = "SELECT * FROM address";
-        try(Statement stmt = connection.createStatement()){
+        try(Statement stmt = ViewManager.getConnection().createStatement()){
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()){
@@ -45,10 +45,23 @@ public class DatabaseHelper {
 
     public boolean deleteContact(Contact contact) throws SQLException {
         String sql = String.format("DELETE FROM address WHERE name='%s';", contact.getName());
-        try(Statement stmt = connection.createStatement()){
+        try(Statement stmt = ViewManager.getConnection().createStatement()){
             Integer rowsAffected =  stmt.executeUpdate(sql);
             return rowsAffected > 0;
         }
+    }
 
+    public boolean editContact(String initialName, Contact updatedContact) throws SQLException {
+        String sql = String.format(
+                "UPDATE address SET name='%s', number='%s', email='%s', address='%s' WHERE name='%s'",
+                updatedContact.getName(),
+                updatedContact.getNumber(),
+                updatedContact.getEmail(),
+                updatedContact.getAddress(),
+                initialName);
+        try(Statement stmt = ViewManager.getConnection().createStatement()){
+            Integer rowsAffected = stmt.executeUpdate(sql);
+            return rowsAffected > 0;
+        }
     }
 }

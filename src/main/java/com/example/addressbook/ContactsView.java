@@ -6,20 +6,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public class ContactsView {
 
-    private Connection connection;
     private DatabaseHelper dbHelper;
     private List<Contact> contacts;
 
     private VBox layout;
-    public ContactsView(Connection connection){
-        this.connection=connection;
-        this.dbHelper = new DatabaseHelper(connection);
+    public ContactsView(){
+        this.dbHelper = new DatabaseHelper();
 
         try {
             contacts = dbHelper.getContacts();
@@ -39,14 +36,12 @@ public class ContactsView {
             Label number = new Label(contact.getNumber());
             Label email = new Label(contact.getEmail());
             Label address = new Label(contact.getAddress());
-            Button btn = new Button("Delete");
-            btn.setOnAction(actionEvent -> {
+
+            Button deleteButton = new Button("Delete");
+            deleteButton.setOnAction(deleteEvent -> {
                 try {
                     if (dbHelper.deleteContact(contact)) {
-                        layout.getChildren().clear();
-                        contacts.remove(contact);
-                        buildContacts();
-
+                        ViewManager.contactsView();
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -55,9 +50,14 @@ public class ContactsView {
                     alert.setTitle("Database Error");
                     alert.showAndWait();
                 }
-
             });
-            newContact.getChildren().addAll(name, number, email, address, btn);
+
+            Button editButton = new Button("Edit");
+            editButton.setOnAction(editEvent -> {
+                ViewManager.editContactsView(contact);
+            });
+
+            newContact.getChildren().addAll(name, number, email, address, editButton,deleteButton);
             layout.getChildren().add(newContact);
         }
     }
