@@ -1,8 +1,8 @@
 package com.example.addressbook.view;
 
-import com.example.addressbook.util.AlertManager;
-import com.example.addressbook.model.Contact;
 import com.example.addressbook.controller.ViewManager;
+import com.example.addressbook.model.Contact;
+import com.example.addressbook.util.AlertManager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

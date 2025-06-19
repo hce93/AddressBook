@@ -10,7 +10,7 @@ public class Contact {
     private String number;
     private String email;
     private String address;
-    private List<Group> groups = new ArrayList<>();
+    private List<Integer> groups = new ArrayList<>();
 
     //constructor
     public Contact(String name, String number, String email, String address){
@@ -40,8 +40,8 @@ public class Contact {
 
     public String getName() {return name;}
 
-    public List<Group> getGroups() {return groups;}
-    public void addGroup(Group group){this.groups.add(group);}
+    public List<Integer> getGroups() {return groups;}
+    public void addGroup(Integer groupId){this.groups.add(groupId);}
 
     @Override
     public String toString(){
