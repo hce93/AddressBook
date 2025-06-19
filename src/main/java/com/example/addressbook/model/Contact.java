@@ -1,12 +1,16 @@
 package com.example.addressbook.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Contact {
+    private int id;
     private String name;
     private String number;
     private String email;
     private String address;
+    private List<Group> groups = new ArrayList<>();
 
     //constructor
     public Contact(String name, String number, String email, String address){
@@ -21,21 +25,23 @@ public class Contact {
         this.address = address;
     }
 
-    public String getEmail() {
-        return email;
+    public Contact(int id, String name, String number, String email, String address){
+        this(name, number, email, address);
+        this.id = id;
     }
 
-    public String getNumber() {
-        return number;
-    }
+    public int getId() {return id;}
 
-    public String getAddress() {
-        return address;
-    }
+    public String getEmail() {return email;}
 
-    public String getName() {
-        return name;
-    }
+    public String getNumber() {return number;}
+
+    public String getAddress() {return address;}
+
+    public String getName() {return name;}
+
+    public List<Group> getGroups() {return groups;}
+    public void addGroup(Group group){this.groups.add(group);}
 
     @Override
     public String toString(){

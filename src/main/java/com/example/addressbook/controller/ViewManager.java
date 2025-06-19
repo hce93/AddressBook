@@ -17,7 +17,7 @@ public class ViewManager {
     private static Stage primaryStage;
     private static Connection conn;
 
-    private static MenuBar mainMenuBar = new ContactsMenuBar().getMenu();
+    private static MenuBar mainMenuBar = new MainMenuBar().getMenu();
     private static DatabaseHelper dbHelper = new DatabaseHelper();
 
     public static void setStage(Stage stage){primaryStage=stage;}
@@ -51,6 +51,17 @@ public class ViewManager {
         EditContactView view = new EditContactView(contact);
         primaryStage.setScene(createScene(view.getView()));
         primaryStage.setTitle("Edit Contact");
+    }
+
+    public static void groupsView(){
+        GroupsView view = new GroupsView();
+        primaryStage.setScene(createScene(view.getView()));
+        primaryStage.setTitle("Groups");
+    }
+    public static void addGroupsView(){
+        AddGroupsView view = new AddGroupsView();
+        primaryStage.setScene(createScene(view.getView()));
+        primaryStage.setTitle("Add Groups");
     }
 
     private static Scene createScene(GridPane view){

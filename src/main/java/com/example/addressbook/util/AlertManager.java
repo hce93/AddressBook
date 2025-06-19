@@ -1,6 +1,7 @@
 package com.example.addressbook.util;
 
 import com.example.addressbook.model.Contact;
+import com.example.addressbook.model.Group;
 import javafx.scene.control.Alert;
 
 import java.sql.SQLException;
@@ -19,6 +20,19 @@ public class AlertManager {
             alertMessage=String.format(baseMessage,"Email", contact.getEmail());
         } else if (message.contains("Address")) {
             alertMessage=String.format(baseMessage,"Address", contact.getAddress());
+        } else {
+            alertMessage="An error has occurred when saving the data. Please try again";
+        }
+        createErrorAlert(alertMessage, "Error Saving Contact");
+        e.printStackTrace();
+    }
+
+    public static void generateSaveDataError(SQLException e, Group group){
+        String message = e.getMessage().toLowerCase();
+        String baseMessage = "%s: %s already exists in your contacts";
+        String alertMessage;
+        if (message.contains("name")){
+            alertMessage=String.format(baseMessage,"Name", group.getName());
         } else {
             alertMessage="An error has occurred when saving the data. Please try again";
         }

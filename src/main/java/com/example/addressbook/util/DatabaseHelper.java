@@ -2,6 +2,7 @@ package com.example.addressbook.util;
 
 import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Contact;
+import com.example.addressbook.model.Group;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +18,16 @@ public class DatabaseHelper {
             stmt.setString(2, contact.getNumber().toString());
             stmt.setString(3, contact.getEmail());
             stmt.setString(4, contact.getAddress());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void save(Group group) throws SQLException {
+        String sql = String.format(
+                "INSERT INTO contact_groups (name) VALUES ('%s')",
+                group.getName());
+
+        try(PreparedStatement stmt = ViewManager.getConnection().prepareStatement(sql)){
             stmt.executeUpdate();
         }
     }
@@ -61,4 +72,22 @@ public class DatabaseHelper {
             return rowsAffected > 0;
         }
     }
+
+    public List<Group> getGroups() throws SQLException{
+        List<Group> groupList = new ArrayList<>();
+
+        String sql = "SELECT * FROM contact_groups";
+        try(Statement stmt = ViewManager.getConnection().createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()){
+                groupList.add(new Group(
+                        rs.getInt("id"),
+                        rs.getString("name")
+                ));
+            }
+        }
+        return groupList;
+    }
+
+
 }
