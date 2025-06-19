@@ -2,6 +2,7 @@ package com.example.addressbook.view;
 
 import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Group;
+import com.example.addressbook.util.AlertManager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,25 +38,28 @@ public class GroupsView {
                 VBox newGroup = new VBox();
                 Label name = new Label(group.getName());
 
-//                Button deleteButton = new Button("Delete");
-//                deleteButton.setOnAction(deleteEvent -> {
-//                    try {
-//                        if (ViewManager.getDbHelper().deleteGroup(group)) {
-//                            ViewManager.contactsView();
-//                        }
-//                    } catch (SQLException e) {
-//                        AlertManager.createErrorAlert(
-//                                "Unable to delete group: " + name, "Database Error");
-//                        e.printStackTrace();
-//                    }
-//                });
+                Button deleteButton = new Button("Delete");
+                deleteButton.setOnAction(deleteEvent -> {
+                    try {
+                        if (ViewManager.getDbHelper().deleteGroup(group.getId())) {
+                            ViewManager.groupsView();
+                        }
+                    } catch (SQLException e) {
+                        AlertManager.createErrorAlert(
+                                "Unable to delete group: " + name, "Database Error");
+                        e.printStackTrace();
+                    }
+                });
 
                 Button editButton = new Button("Edit");
                 editButton.setOnAction(editEvent -> {
                     ViewManager.editGroupView(group);
                 });
 
-                newGroup.getChildren().addAll(name, editButton);
+                newGroup.getChildren().addAll(
+                        name,
+                        editButton,
+                        deleteButton);
                 layout.getChildren().add(newGroup);
             }
         }

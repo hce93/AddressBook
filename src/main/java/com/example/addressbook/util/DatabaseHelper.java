@@ -121,13 +121,13 @@ public class DatabaseHelper {
         return groupList;
     }
 
-//    public boolean deleteGroup(Integer id) throws SQLException {
-//        String sql = String.format("DELETE FROM contact_groups WHERE id='%s';", contact.getName());
-//        try(Statement stmt = ViewManager.getConnection().createStatement()){
-//            Integer rowsAffected =  stmt.executeUpdate(sql);
-//            return rowsAffected > 0;
-//        }
-//    }
+    public boolean deleteGroup(Integer id) throws SQLException {
+        String sql = String.format("DELETE FROM contact_groups WHERE id='%s';", id);
+        try(Statement stmt = ViewManager.getConnection().createStatement()){
+            Integer rowsAffected =  stmt.executeUpdate(sql);
+            return rowsAffected > 0;
+        }
+    }
 
     public boolean editGroup(Integer id, String newName) throws SQLException{
         String sql = String.format(
