@@ -55,7 +55,6 @@ public class DatabaseHelper {
 
     public List<Contact> getContacts() throws SQLException{
         List<Contact> contactList = new ArrayList<>();
-//        SELECT p.* FROM address p LEFT JOIN address_contact_groups pt ON p.id = pt.address_id;
         String sql = "SELECT a.*,GROUP_CONCAT(ag.contact_groups_id SEPARATOR ',') AS contact_groups\n" +
                 "FROM address_book.address a\n" +
                 "LEFT JOIN address_book.address_contact_groups ag ON a.id = ag.address_id\n" +
@@ -122,6 +121,27 @@ public class DatabaseHelper {
         return groupList;
     }
 
+//    public boolean deleteGroup(Integer id) throws SQLException {
+//        String sql = String.format("DELETE FROM contact_groups WHERE id='%s';", contact.getName());
+//        try(Statement stmt = ViewManager.getConnection().createStatement()){
+//            Integer rowsAffected =  stmt.executeUpdate(sql);
+//            return rowsAffected > 0;
+//        }
+//    }
+
+    public boolean editGroup(Integer id, String newName) throws SQLException{
+        String sql = String.format(
+                "UPDATE contact_groups SET name='%s' WHERE id=%s",
+                newName,
+                id);
+        try(Statement stmt = ViewManager.getConnection().createStatement()){
+            Integer rowsAffected = stmt.executeUpdate(sql);
+            return rowsAffected > 0;
+        }
+    }
+
+
+
     public void deleteContactGroup(Integer contact_id, List<Integer> group_ids) throws SQLException{
         for (Integer group : group_ids){
             String sql = String.format("DELETE FROM address_contact_groups " +
@@ -132,5 +152,7 @@ public class DatabaseHelper {
             }
         }
     }
+
+
 
 }

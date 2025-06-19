@@ -11,36 +11,30 @@ import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
 
-public class AddGroupsView {
-
+public class EditGroupView {
+    private Group group;
     private VBox layout;
 
-    public AddGroupsView(){
+    public EditGroupView(Group group){
+        this.group = group;
 
         layout = new VBox(10);
         layout.setPadding(new Insets(20));
 
         TextField nameField = new TextField();
+        nameField.setText(group.getName());
         nameField.setPromptText("Enter name");
 
         Button submitButton = new Button("Submit");
         submitButton.setDefaultButton(true);
-
         submitButton.setOnAction(submitted -> {
             String name = nameField.getText();
-
-            Group group = null;
-            try{
-                group = new Group(name);
-            } catch (IllegalArgumentException e){
-                AlertManager.createErrorAlert(e.getMessage(), "DataValidation Error");
-                e.printStackTrace();
-            }
             try {
-                ViewManager.getDbHelper().save(group);
+                ViewManager.getDbHelper().editGroup(group.getId(), name);
                 ViewManager.groupsView();
-            } catch (SQLException e) {
-                AlertManager.generateSaveDataError(e, group);
+            } catch (SQLException e){
+                AlertManager.createErrorAlert("Error editing group: "+group.getName(), "Error Saving Group");
+                e.printStackTrace();
             }
         });
 
@@ -48,9 +42,13 @@ public class AddGroupsView {
                 new Label("Name:"), nameField,
                 submitButton
         );
+
+
     }
 
     public VBox getView() {
         return layout;
     }
+
+
 }

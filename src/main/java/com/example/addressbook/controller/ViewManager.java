@@ -1,6 +1,7 @@
 package com.example.addressbook.controller;
 
 import com.example.addressbook.model.Contact;
+import com.example.addressbook.model.Group;
 import com.example.addressbook.util.DatabaseHelper;
 import com.example.addressbook.view.*;
 import javafx.scene.Scene;
@@ -59,9 +60,15 @@ public class ViewManager {
         primaryStage.setTitle("Groups");
     }
     public static void addGroupsView(){
-        AddGroupsView view = new AddGroupsView();
+        AddGroupView view = new AddGroupView();
         primaryStage.setScene(createScene(view.getView()));
         primaryStage.setTitle("Add Groups");
+    }
+
+    public static void editGroupView(Group group){
+        EditGroupView view = new EditGroupView(group);
+        primaryStage.setScene(createScene(view.getView()));
+        primaryStage.setTitle("Edit Groups");
     }
 
     private static Scene createScene(GridPane view){

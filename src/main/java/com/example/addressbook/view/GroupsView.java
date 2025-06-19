@@ -3,6 +3,7 @@ package com.example.addressbook.view;
 import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Group;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -49,12 +50,12 @@ public class GroupsView {
 //                    }
 //                });
 
-//                Button editButton = new Button("Edit");
-//                editButton.setOnAction(editEvent -> {
-//                    ViewManager.editContactsView(contact);
-//                });
+                Button editButton = new Button("Edit");
+                editButton.setOnAction(editEvent -> {
+                    ViewManager.editGroupView(group);
+                });
 
-                newGroup.getChildren().addAll(name);
+                newGroup.getChildren().addAll(name, editButton);
                 layout.getChildren().add(newGroup);
             }
         }

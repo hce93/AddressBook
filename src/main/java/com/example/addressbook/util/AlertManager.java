@@ -29,14 +29,14 @@ public class AlertManager {
 
     public static void generateSaveDataError(SQLException e, Group group){
         String message = e.getMessage().toLowerCase();
-        String baseMessage = "%s: %s already exists in your contacts";
+        String baseMessage = "%s: %s already exists in your groups";
         String alertMessage;
         if (message.contains("name")){
             alertMessage=String.format(baseMessage,"Name", group.getName());
         } else {
             alertMessage="An error has occurred when saving the data. Please try again";
         }
-        createErrorAlert(alertMessage, "Error Saving Contact");
+        createErrorAlert(alertMessage, "Error Saving Group");
         e.printStackTrace();
     }
 
