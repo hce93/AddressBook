@@ -62,6 +62,7 @@ public class LoginView {
             pwBox.clear();
         });
         grid.add(btn, 1,3);
+
         return grid;
     }
 }

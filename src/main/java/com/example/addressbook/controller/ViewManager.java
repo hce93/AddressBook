@@ -6,6 +6,7 @@ import com.example.addressbook.util.DatabaseHelper;
 import com.example.addressbook.view.*;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -80,7 +81,9 @@ public class ViewManager {
 
     private static Scene createScene(VBox view){
         BorderPane root = new BorderPane();
-        root.setCenter(view);
+        ScrollPane scrollPane = new ScrollPane(view);
+        scrollPane.setFitToWidth(true);
+        root.setCenter(scrollPane);
         root.setTop(getMainMenuBar());
         Scene scene = new Scene(root);
         return scene;
