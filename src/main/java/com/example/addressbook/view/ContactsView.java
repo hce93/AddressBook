@@ -7,6 +7,7 @@ import com.example.addressbook.util.AlertManager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,21 +15,26 @@ import javafx.scene.layout.VBox;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ContactsView {
 
     private List<Contact> contacts;
+    private List<Contact> searchedContacts;
+    private List<Contact> filteredContacts;
     private List<Contact> displayContacts;
     private VBox layout;
     private VBox contactsBox = new VBox();
-    private Integer filtersSelectedCount = 0;
     private List<Integer> filtersSelected = new ArrayList<>();
+    private TextField searchField;
     public ContactsView(){
 
         try {
             contacts = ViewManager.getDbHelper().getContacts();
-            displayContacts = new ArrayList<>(contacts);
+            searchedContacts = new ArrayList<>(contacts);
+            filteredContacts = new ArrayList<>(contacts);
+
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -37,7 +43,34 @@ public class ContactsView {
         layout.setPadding(new Insets(20));
 
         buildContacts();
-        layout.getChildren().addAll(getFilters(), contactsBox);
+        layout.getChildren().addAll(getSearchBar(), getFilters(), contactsBox);
+    }
+
+    private HBox getSearchBar(){
+        HBox searchBox = new HBox();
+        searchField = new TextField();
+        Button searchButton = new Button("Search");
+        searchButton.setOnAction(search -> {
+            searchContacts();
+        });
+        searchButton.setDefaultButton(true);
+        searchBox.getChildren().addAll(searchField, searchButton);
+        return searchBox;
+    }
+
+    private void searchContacts(){
+        String searchText = searchField.getText();
+        if (!searchText.isBlank()) {
+            Pattern pattern = Pattern.compile(searchText, Pattern.CASE_INSENSITIVE);
+            searchedContacts = contacts.stream()
+                    .filter(contact -> pattern.matcher(contact.getName()).find())
+                    .collect(Collectors.toList());
+
+            buildContacts();
+        } else {
+            searchedContacts=contacts;
+        }
+        buildContacts();
     }
 
     private HBox getFilters(){
@@ -60,25 +93,36 @@ public class ContactsView {
                     // remove filter
                     filtersSelected.remove(Integer.valueOf(group.getId()));
                 }
-
-                if (filtersSelected.isEmpty()){
-                    displayContacts=contacts;
-                } else {
-                    displayContacts = contacts.stream()
-                            .filter(contact -> contact.getGroups()
-                                    .stream()
-                                    .anyMatch(id -> filtersSelected.contains(id)))
-                            .collect(Collectors.toList());
-
-                }
-                buildContacts();
+                filterContacts();
             });
             filters.getChildren().add(b);
         }
         return filters;
     }
 
+    private void filterContacts(){
+        if (filtersSelected.isEmpty()) {
+            filteredContacts = contacts;
+        } else {
+            filteredContacts = contacts.stream()
+                    .filter(contact -> contact.getGroups()
+                            .stream()
+                            .anyMatch(id -> filtersSelected.contains(id)))
+                    .collect(Collectors.toList());
+        }
+        buildContacts();
+    }
+
+    private void updateDisplayContacts(){
+        displayContacts = contacts.stream()
+                .filter(contact -> filteredContacts.contains(contact) &&
+                        searchedContacts.contains(contact))
+                .collect(Collectors.toList());
+    }
+
+
     private void buildContacts(){
+        updateDisplayContacts();
         contactsBox.getChildren().clear();
         if (displayContacts.isEmpty()){
             Label emptyLabel = new Label("You have no contacts");
