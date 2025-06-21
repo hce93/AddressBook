@@ -65,8 +65,6 @@ public class ContactsView {
             searchedContacts = contacts.stream()
                     .filter(contact -> pattern.matcher(contact.getName()).find())
                     .collect(Collectors.toList());
-
-            buildContacts();
         } else {
             searchedContacts=contacts;
         }
