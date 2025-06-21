@@ -18,6 +18,12 @@ public class ViewManager {
 
     private static Stage primaryStage;
     private static Connection conn;
+    private static ContactsView contactsView;
+    private static AddContactView addContactView;
+    private static EditContactView editContactView;
+    private static GroupsView groupsView;
+    private static AddGroupView addGroupView;
+    private static EditGroupView editGroupView;
 
     private static MenuBar mainMenuBar = new MainMenuBar().getMenu();
     private static DatabaseHelper dbHelper = new DatabaseHelper();
@@ -36,39 +42,52 @@ public class ViewManager {
     }
 
     public static void contactsView(){
-        ContactsView view = new ContactsView();
-        primaryStage.setScene(createScene(view.getView()));
+        if (contactsView==null){
+            contactsView = new ContactsView();
+        }
+
+        primaryStage.setScene(createScene(contactsView.getView()));
         primaryStage.setHeight(500);
         primaryStage.setWidth(500);
         primaryStage.setTitle("Contacts");
     }
 
     public static void addContactsView(){
-        AddContactView view = new AddContactView();
-        primaryStage.setScene(createScene(view.getView()));
+        if (addContactView==null){
+            addContactView = new AddContactView();
+        }
+        primaryStage.setScene(createScene(addContactView.getView()));
         primaryStage.setTitle("Add Contacts");
     }
 
     public static void editContactsView(Contact contact){
-        EditContactView view = new EditContactView(contact);
-        primaryStage.setScene(createScene(view.getView()));
+        if(editContactView==null){
+            editContactView = new EditContactView(contact);
+        }
+        primaryStage.setScene(createScene(editContactView.getView()));
         primaryStage.setTitle("Edit Contact");
     }
 
     public static void groupsView(){
-        GroupsView view = new GroupsView();
-        primaryStage.setScene(createScene(view.getView()));
+        if (groupsView==null){
+            groupsView = new GroupsView();
+        }
+        primaryStage.setScene(createScene(groupsView.getView()));
         primaryStage.setTitle("Groups");
     }
     public static void addGroupsView(){
-        AddGroupView view = new AddGroupView();
-        primaryStage.setScene(createScene(view.getView()));
+        if (addGroupView==null){
+            addGroupView = new AddGroupView();
+        }
+        primaryStage.setScene(createScene(addGroupView.getView()));
         primaryStage.setTitle("Add Groups");
     }
 
     public static void editGroupView(Group group){
-        EditGroupView view = new EditGroupView(group);
-        primaryStage.setScene(createScene(view.getView()));
+        if (editGroupView==null){
+            editGroupView = new EditGroupView(group);
+        }
+        primaryStage.setScene(createScene(editGroupView.getView()));
         primaryStage.setTitle("Edit Groups");
     }
 

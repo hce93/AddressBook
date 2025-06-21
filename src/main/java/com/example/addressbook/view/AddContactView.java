@@ -5,6 +5,7 @@ import com.example.addressbook.model.Contact;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -86,13 +87,26 @@ public class AddContactView {
             }
         });
 
+        Button resetButton = new Button("Reset");
+        resetButton.setOnAction(refresh -> {
+            nameField.setText("");
+            numberField.setText("");
+            emailField.setText("");
+            addressField.setText("");
+            for(Node node : t.getChildren()){
+                CheckBox checkBox = (CheckBox) node;
+                checkBox.setSelected(false);
+            }
+        });
+
         layout.getChildren().addAll(
                 new Label("Name:"), nameField,
                 new Label("Number:"), numberField,
                 new Label("Email:"), emailField,
                 new Label("Address:"), addressField,
                 t,
-                submitButton
+                submitButton,
+                resetButton
         );
     }
 
