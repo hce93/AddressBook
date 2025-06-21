@@ -23,25 +23,31 @@ public class AddContactView {
     private List<Group> groups = new ArrayList<>();
     private List<Integer> groupsSelected = new ArrayList<>();
 
+    private TextField nameField;
+    private TextField numberField;
+    private TextField emailField;
+    private TextField addressField;
+    private TilePane t;
+
     public AddContactView(){
 
         layout = new VBox(10);
         layout.setPadding(new Insets(20));
 
-        TextField nameField = new TextField();
+        nameField = new TextField();
         nameField.setPromptText("Enter name");
 
-        TextField numberField = new TextField();
+        numberField = new TextField();
         numberField.setPromptText("Enter number");
 
-        TextField emailField = new TextField();
+        emailField = new TextField();
         emailField.setPromptText("Enter email");
 
-        TextField addressField = new TextField();
+        addressField = new TextField();
         addressField.setPromptText("Enter address");
 
         //checkboxes for groups
-        TilePane t = new TilePane();
+        t = new TilePane();
 
         try {
             groups = ViewManager.getDbHelper().getGroups();
@@ -81,22 +87,18 @@ public class AddContactView {
             try {
                 int newId = ViewManager.getDbHelper().save(contact);
                 ViewManager.getDbHelper().save(newId, groupsSelected);
+                resetPage();
+                ViewManager.refreshContactsView();
                 ViewManager.contactsView();
             } catch (SQLException e) {
                 AlertManager.generateSaveDataError(e, contact);
             }
+
         });
 
         Button resetButton = new Button("Reset");
         resetButton.setOnAction(refresh -> {
-            nameField.setText("");
-            numberField.setText("");
-            emailField.setText("");
-            addressField.setText("");
-            for(Node node : t.getChildren()){
-                CheckBox checkBox = (CheckBox) node;
-                checkBox.setSelected(false);
-            }
+            resetPage();
         });
 
         layout.getChildren().addAll(
@@ -108,6 +110,16 @@ public class AddContactView {
                 submitButton,
                 resetButton
         );
+    }
+    private void resetPage(){
+        nameField.setText("");
+        numberField.setText("");
+        emailField.setText("");
+        addressField.setText("");
+        for(Node node : t.getChildren()){
+            CheckBox checkBox = (CheckBox) node;
+            checkBox.setSelected(false);
+        }
     }
 
     public VBox getView() {

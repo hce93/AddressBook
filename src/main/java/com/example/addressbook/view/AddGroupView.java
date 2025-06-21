@@ -38,6 +38,10 @@ public class AddGroupView {
             }
             try {
                 ViewManager.getDbHelper().save(group);
+                nameField.setText("");
+                ViewManager.refreshContactsView();
+                ViewManager.refreshAddContactsView();
+                ViewManager.refreshGroupsView();
                 ViewManager.groupsView();
             } catch (SQLException e) {
                 AlertManager.generateSaveDataError(e, group);

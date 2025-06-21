@@ -41,9 +41,12 @@ public class ViewManager {
         primaryStage.setTitle("Database Login");
     }
 
+    public static void refreshContactsView(){
+        contactsView = new ContactsView();
+    }
     public static void contactsView(){
         if (contactsView==null){
-            contactsView = new ContactsView();
+            refreshContactsView();
         }
 
         primaryStage.setScene(createScene(contactsView.getView()));
@@ -52,9 +55,13 @@ public class ViewManager {
         primaryStage.setTitle("Contacts");
     }
 
+    public static void refreshAddContactsView(){
+        addContactView = new AddContactView();
+    }
+
     public static void addContactsView(){
         if (addContactView==null){
-            addContactView = new AddContactView();
+            refreshAddContactsView();
         }
         primaryStage.setScene(createScene(addContactView.getView()));
         primaryStage.setTitle("Add Contacts");
@@ -68,9 +75,12 @@ public class ViewManager {
         primaryStage.setTitle("Edit Contact");
     }
 
+    public static void refreshGroupsView(){
+        groupsView = new GroupsView();
+    }
     public static void groupsView(){
         if (groupsView==null){
-            groupsView = new GroupsView();
+            refreshGroupsView();
         }
         primaryStage.setScene(createScene(groupsView.getView()));
         primaryStage.setTitle("Groups");

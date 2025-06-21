@@ -98,7 +98,12 @@ public class GroupsView {
                 deleteButton.setOnAction(deleteEvent -> {
                     try {
                         if (ViewManager.getDbHelper().deleteGroup(group.getId())) {
-                            ViewManager.groupsView();
+                            groups.remove(group);
+                            searchedGroups.removeIf(group1 -> (group1==group));
+                            // refresh contacts view so group is removed from contacts
+                            ViewManager.refreshContactsView();
+                            ViewManager.refreshAddContactsView();
+                            buildGroups();
                         }
                     } catch (SQLException e) {
                         AlertManager.createErrorAlert(

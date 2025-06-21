@@ -37,7 +37,6 @@ public class DatabaseHelper {
 
         try(PreparedStatement stmt = ViewManager.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             stmt.executeUpdate();
-            System.out.println(stmt);
         }
     }
 

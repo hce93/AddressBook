@@ -157,8 +157,10 @@ public class ContactsView {
                 deleteButton.setOnAction(deleteEvent -> {
                     try {
                         if (ViewManager.getDbHelper().deleteContact(contact)) {
-
-                            ViewManager.contactsView();
+                            contacts.remove(contact);
+                            filteredContacts.removeIf(contact1 -> (contact1==contact));
+                            searchedContacts.removeIf(contact1 -> (contact1==contact));
+                            buildContacts();
                         }
                     } catch (SQLException e) {
                         AlertManager.createErrorAlert(

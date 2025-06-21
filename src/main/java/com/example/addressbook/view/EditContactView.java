@@ -96,7 +96,7 @@ public class EditContactView {
                 if(!groupsToDelete.isEmpty()){
                     ViewManager.getDbHelper().deleteContactGroup(contact.getId(), groupsToDelete);
                 }
-
+                ViewManager.refreshContactsView();
                 ViewManager.contactsView();
 
             } catch (SQLException e){

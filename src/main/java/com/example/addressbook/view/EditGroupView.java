@@ -31,6 +31,9 @@ public class EditGroupView {
             String name = nameField.getText();
             try {
                 ViewManager.getDbHelper().editGroup(group.getId(), name);
+                ViewManager.refreshGroupsView();
+                ViewManager.refreshContactsView();
+                ViewManager.refreshAddContactsView();
                 ViewManager.groupsView();
             } catch (SQLException e){
                 AlertManager.createErrorAlert("Error editing group: "+group.getName(), "Error Saving Group");
