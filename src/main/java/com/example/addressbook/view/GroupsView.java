@@ -7,10 +7,14 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -18,15 +22,17 @@ import java.util.stream.Collectors;
 public class GroupsView {
     private List<Group> groups;
     private List<Group> searchedGroups;
-
     private VBox layout;
     private VBox groupsBox = new VBox();
     private TextField searchField;
+    private boolean sortAtoZ = true;
 
     public GroupsView(){
         try{
-            groups = ViewManager.getDbHelper().getGroups();
-            searchedGroups = groups;
+            groups = ViewManager.getDbHelper().getGroups().stream()
+                    .sorted(Comparator.comparing(Group::getName))
+                    .collect(Collectors.toList());
+            searchedGroups = new ArrayList<>(groups);
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -34,7 +40,22 @@ public class GroupsView {
         layout = new VBox(10);
         layout.setPadding(new Insets(20));
         buildGroups();
-        layout.getChildren().addAll(getSearchBar(), groupsBox);
+        layout.getChildren().addAll(getSearchBar(), getSortButton(), groupsBox);
+    }
+
+    private ToggleButton getSortButton(){
+        ToggleButton sortButton = new ToggleButton("A->Z");
+        sortButton.setOnAction(pressed -> {
+            Collections.reverse(groups);
+            Collections.reverse(searchedGroups);
+            if (sortButton.isSelected()) {
+                sortButton.setText("Z->A");
+            } else {
+                sortButton.setText("A->Z");
+            }
+            buildGroups();
+        });
+        return sortButton;
     }
 
     private HBox getSearchBar(){
@@ -57,7 +78,7 @@ public class GroupsView {
                     .filter(group -> pattern.matcher(group.getName()).find())
                     .collect(Collectors.toList());
         } else {
-            searchedGroups=groups;
+            searchedGroups=new ArrayList<>(groups);
         }
         buildGroups();
     }
@@ -95,7 +116,6 @@ public class GroupsView {
                         name,
                         editButton,
                         deleteButton);
-
                 groupsBox.getChildren().add(newGroup);
             }
         }

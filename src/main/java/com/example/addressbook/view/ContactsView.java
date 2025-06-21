@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -31,7 +33,9 @@ public class ContactsView {
     public ContactsView(){
 
         try {
-            contacts = ViewManager.getDbHelper().getContacts();
+            contacts = ViewManager.getDbHelper().getContacts().stream()
+                    .sorted(Comparator.comparing(Contact::getName))
+                    .collect(Collectors.toList());
             searchedContacts = new ArrayList<>(contacts);
             filteredContacts = new ArrayList<>(contacts);
 
@@ -43,7 +47,23 @@ public class ContactsView {
         layout.setPadding(new Insets(20));
 
         buildContacts();
-        layout.getChildren().addAll(getSearchBar(), getFilters(), contactsBox);
+        layout.getChildren().addAll(getSearchBar(), getSortButton(), getFilters(), contactsBox);
+    }
+
+    private ToggleButton getSortButton(){
+        ToggleButton sortButton = new ToggleButton("A->Z");
+        sortButton.setOnAction(pressed -> {
+            Collections.reverse(contacts);
+            Collections.reverse(filteredContacts);
+            Collections.reverse(searchedContacts);
+            if (sortButton.isSelected()) {
+                sortButton.setText("Z->A");
+            } else {
+                sortButton.setText("A->Z");
+            }
+            buildContacts();
+        });
+        return sortButton;
     }
 
     private HBox getSearchBar(){
@@ -66,7 +86,7 @@ public class ContactsView {
                     .filter(contact -> pattern.matcher(contact.getName()).find())
                     .collect(Collectors.toList());
         } else {
-            searchedContacts=contacts;
+            searchedContacts=new ArrayList<>(contacts);
         }
         buildContacts();
     }
@@ -100,7 +120,7 @@ public class ContactsView {
 
     private void filterContacts(){
         if (filtersSelected.isEmpty()) {
-            filteredContacts = contacts;
+            filteredContacts = new ArrayList<>(contacts);
         } else {
             filteredContacts = contacts.stream()
                     .filter(contact -> contact.getGroups()
