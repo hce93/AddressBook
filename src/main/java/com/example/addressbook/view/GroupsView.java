@@ -3,7 +3,8 @@ package com.example.addressbook.view;
 import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
-import javafx.geometry.Insets;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,65 +12,49 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class GroupsView {
+public class GroupsView implements Initializable {
     private List<Group> groups;
     private List<Group> searchedGroups;
-    private VBox layout;
-    private VBox groupsBox = new VBox();
+    @FXML
     private TextField searchField;
+    @FXML private HBox filtersBox;
+    @FXML private VBox groupsBox;
+    @FXML private Label noGroupsLabel;
+    @FXML private ToggleButton sortButton;
     private boolean sortAtoZ = true;
 
-    public GroupsView(){
+    public void initialize(URL url, ResourceBundle rb) {
         try{
             groups = ViewManager.getDbHelper().getGroups().stream()
-                    .sorted(Comparator.comparing(Group::getName))
+                    .sorted(Comparator.comparing(group->group.getName().toLowerCase()))
                     .collect(Collectors.toList());
             searchedGroups = new ArrayList<>(groups);
         } catch (SQLException e){
             e.printStackTrace();
         }
-
-        layout = new VBox(10);
-        layout.setPadding(new Insets(20));
         buildGroups();
-        layout.getChildren().addAll(getSearchBar(), getSortButton(), groupsBox);
     }
 
-    private ToggleButton getSortButton(){
-        ToggleButton sortButton = new ToggleButton("A->Z");
-        sortButton.setOnAction(pressed -> {
-            Collections.reverse(groups);
-            Collections.reverse(searchedGroups);
-            if (sortButton.isSelected()) {
-                sortButton.setText("Z->A");
-            } else {
-                sortButton.setText("A->Z");
-            }
-            buildGroups();
-        });
-        return sortButton;
+    @FXML
+    private void onSortClicked(){
+        Collections.reverse(groups);
+        Collections.reverse(searchedGroups);
+        if (sortButton.isSelected()) {
+            sortButton.setText("Z->A");
+        } else {
+            sortButton.setText("A->Z");
+        }
+        buildGroups();
     }
 
-    private HBox getSearchBar(){
-        HBox searchBox = new HBox();
-        searchField = new TextField();
-        Button searchButton = new Button("Search");
-        searchButton.setOnAction(search -> {
-            searchGroups();
-        });
-        searchButton.setDefaultButton(true);
-        searchBox.getChildren().addAll(searchField, searchButton);
-        return searchBox;
-    }
-
+    @FXML
     private void searchGroups(){
         String searchText = searchField.getText();
         if (!searchText.isBlank()) {
@@ -86,10 +71,9 @@ public class GroupsView {
     private void buildGroups(){
         groupsBox.getChildren().clear();
         if (searchedGroups.isEmpty()){
-            Label emptyLabel = new Label("You have no groups set up");
-            groupsBox.getChildren().add(emptyLabel);
-
+            noGroupsLabel.setText("You have no groups set up");
         } else {
+            noGroupsLabel.setText("");
             for (Group group : searchedGroups) {
                 VBox newGroup = new VBox();
                 Label name = new Label(group.getName());
@@ -114,7 +98,11 @@ public class GroupsView {
 
                 Button editButton = new Button("Edit");
                 editButton.setOnAction(editEvent -> {
-                    ViewManager.editGroupView(group);
+                    try {
+                        ViewManager.editGroupView(group);
+                    }catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
 
                 newGroup.getChildren().addAll(
@@ -124,8 +112,5 @@ public class GroupsView {
                 groupsBox.getChildren().add(newGroup);
             }
         }
-    }
-    public VBox getView() {
-        return layout;
     }
 }

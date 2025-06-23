@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:controller="com.example.addressbook.view.GroupsView"
+            xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <fx:include source="MenuBar.fxml"/>
+    </top>
+    <center>
+        <VBox>
+            <HBox spacing="5">
+                <TextField fx:id="searchField" />
+                <Button text="Search" defaultButton="true" onAction="#searchGroups" />
+            </HBox>
+
+            <ToggleButton fx:id="sortButton" text="A->Z" onAction="#onSortClicked" />
+
+            <Label fx:id="noGroupsLabel" text=""/>
+            <ScrollPane>
+                <VBox fx:id="groupsBox" spacing="5" />
+            </ScrollPane>
+
+        </VBox>
+    </center>
+</BorderPane>

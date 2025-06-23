@@ -1,131 +1,101 @@
 package com.example.addressbook.view;
 
+
 import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Contact;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
-import javafx.geometry.Insets;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class AddContactView {
-
-    private VBox layout;
+public class AddContactView implements Initializable {
     private List<Group> groups = new ArrayList<>();
     private List<Integer> groupsSelected = new ArrayList<>();
 
+    @FXML
     private TextField nameField;
+    @FXML
     private TextField numberField;
+    @FXML
     private TextField emailField;
+    @FXML
     private TextField addressField;
-    private TilePane t;
+    @FXML
+    private TilePane groupsTilePane = new TilePane();
 
-    public AddContactView(){
+    public void initialize(URL url, ResourceBundle rb) {
+        loadGroupCheckboxes();
+    }
 
-        layout = new VBox(10);
-        layout.setPadding(new Insets(20));
-
-        nameField = new TextField();
-        nameField.setPromptText("Enter name");
-
-        numberField = new TextField();
-        numberField.setPromptText("Enter number");
-
-        emailField = new TextField();
-        emailField.setPromptText("Enter email");
-
-        addressField = new TextField();
-        addressField.setPromptText("Enter address");
-
-        //checkboxes for groups
-        t = new TilePane();
-
+    private void loadGroupCheckboxes() {
         try {
             groups = ViewManager.getDbHelper().getGroups();
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        for (Group group : groups){
+        for (Group group : groups) {
             CheckBox c = new CheckBox(group.getName());
             c.setOnAction(selected -> {
-                if (c.isSelected()){
+                if (c.isSelected()) {
                     groupsSelected.add(group.getId());
                 } else {
                     groupsSelected.remove(Integer.valueOf(group.getId()));
                 }
             });
-
-            t.getChildren().add(c);
+            groupsTilePane.getChildren().add(c);
         }
-
-        Button submitButton = new Button("Submit");
-        submitButton.setDefaultButton(true);
-
-        submitButton.setOnAction(submitted -> {
-            String name = nameField.getText();
-            String num = numberField.getText();
-            String email = emailField.getText();
-            String address = addressField.getText();
-
-            Contact contact = null;
-            try{
-                contact = new Contact(name, num, email, address);
-            } catch (IllegalArgumentException e){
-                AlertManager.createErrorAlert(e.getMessage(), "DataValidation Error");
-                e.printStackTrace();
-            }
-            try {
-                int newId = ViewManager.getDbHelper().save(contact);
-                ViewManager.getDbHelper().save(newId, groupsSelected);
-                resetPage();
-                ViewManager.refreshContactsView();
-                ViewManager.contactsView();
-            } catch (SQLException e) {
-                AlertManager.generateSaveDataError(e, contact);
-            }
-
-        });
-
-        Button resetButton = new Button("Reset");
-        resetButton.setOnAction(refresh -> {
-            resetPage();
-        });
-
-        layout.getChildren().addAll(
-                new Label("Name:"), nameField,
-                new Label("Number:"), numberField,
-                new Label("Email:"), emailField,
-                new Label("Address:"), addressField,
-                t,
-                submitButton,
-                resetButton
-        );
     }
-    private void resetPage(){
+
+    @FXML
+    private void submitAddContactForm() {
+        String name = nameField.getText();
+        String num = numberField.getText();
+        String email = emailField.getText();
+        String address = addressField.getText();
+
+        Contact contact = null;
+        try {
+            contact = new Contact(name, num, email, address);
+        } catch (IllegalArgumentException e) {
+            AlertManager.createErrorAlert(e.getMessage(), "DataValidation Error");
+            e.printStackTrace();
+        }
+        try {
+            int newId = ViewManager.getDbHelper().save(contact);
+            ViewManager.getDbHelper().save(newId, groupsSelected);
+            resetPage();
+            ViewManager.refreshContactsView();
+            ViewManager.contactsView();
+        } catch (SQLException e) {
+            AlertManager.generateSaveDataError(e, contact);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void resetPage() {
         nameField.setText("");
         numberField.setText("");
         emailField.setText("");
         addressField.setText("");
-        for(Node node : t.getChildren()){
+        for (Node node : groupsTilePane.getChildren()) {
             CheckBox checkBox = (CheckBox) node;
             checkBox.setSelected(false);
         }
     }
-
-    public VBox getView() {
-        return layout;
-    }
 }
-
 
 

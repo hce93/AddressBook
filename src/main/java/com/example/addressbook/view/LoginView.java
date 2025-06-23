@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -57,6 +58,8 @@ public class LoginView {
             } catch (SQLException e) {
                 AlertManager.createErrorAlert(
                         "Access Denied. Please try again","Database Error");
+                e.printStackTrace();
+            }catch (IOException e){
                 e.printStackTrace();
             }
             pwBox.clear();

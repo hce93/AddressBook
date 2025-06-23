@@ -4,7 +4,8 @@ import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Contact;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
-import javafx.geometry.Insets;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,29 +13,29 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class ContactsView {
+public class ContactsView implements Initializable {
 
     private List<Contact> contacts;
     private List<Contact> searchedContacts;
     private List<Contact> filteredContacts;
     private List<Contact> displayContacts;
-    private VBox layout;
-    private VBox contactsBox = new VBox();
     private List<Integer> filtersSelected = new ArrayList<>();
-    private TextField searchField;
-    public ContactsView(){
+    @FXML private VBox contactsBox;
+    @FXML private ToggleButton sortButton;
+    @FXML private HBox filtersBox;
+    @FXML private TextField searchField;
+    public void initialize(URL url, ResourceBundle rb){
 
         try {
             contacts = ViewManager.getDbHelper().getContacts().stream()
-                    .sorted(Comparator.comparing(Contact::getName))
+                    .sorted(Comparator.comparing(contact->contact.getName().toLowerCase()))
                     .collect(Collectors.toList());
             searchedContacts = new ArrayList<>(contacts);
             filteredContacts = new ArrayList<>(contacts);
@@ -43,42 +44,23 @@ public class ContactsView {
             e.printStackTrace();
         }
 
-        layout = new VBox(10);
-        layout.setPadding(new Insets(20));
-
         buildContacts();
-        layout.getChildren().addAll(getSearchBar(), getSortButton(), getFilters(), contactsBox);
+        getFilters();
     }
 
-    private ToggleButton getSortButton(){
-        ToggleButton sortButton = new ToggleButton("A->Z");
-        sortButton.setOnAction(pressed -> {
-            Collections.reverse(contacts);
-            Collections.reverse(filteredContacts);
-            Collections.reverse(searchedContacts);
-            if (sortButton.isSelected()) {
-                sortButton.setText("Z->A");
-            } else {
-                sortButton.setText("A->Z");
-            }
-            buildContacts();
-        });
-        return sortButton;
+    @FXML private void onSortClicked(){
+        Collections.reverse(contacts);
+        Collections.reverse(filteredContacts);
+        Collections.reverse(searchedContacts);
+        if (sortButton.isSelected()) {
+            sortButton.setText("Z->A");
+        } else {
+            sortButton.setText("A->Z");
+        }
+        buildContacts();
     }
 
-    private HBox getSearchBar(){
-        HBox searchBox = new HBox();
-        searchField = new TextField();
-        Button searchButton = new Button("Search");
-        searchButton.setOnAction(search -> {
-            searchContacts();
-        });
-        searchButton.setDefaultButton(true);
-        searchBox.getChildren().addAll(searchField, searchButton);
-        return searchBox;
-    }
-
-    private void searchContacts(){
+    @FXML private void searchContacts(){
         String searchText = searchField.getText();
         if (!searchText.isBlank()) {
             Pattern pattern = Pattern.compile(searchText, Pattern.CASE_INSENSITIVE);
@@ -92,6 +74,7 @@ public class ContactsView {
     }
 
     private HBox getFilters(){
+        filtersBox.getChildren().clear();
         List<Group> groups = new ArrayList<>();
         try {
             groups = ViewManager.getDbHelper().getGroups();
@@ -99,7 +82,6 @@ public class ContactsView {
             e.printStackTrace();
         }
 
-        HBox filters = new HBox();
         for (Group group : groups){
             ToggleButton b = new ToggleButton(group.getName());
 
@@ -113,9 +95,9 @@ public class ContactsView {
                 }
                 filterContacts();
             });
-            filters.getChildren().add(b);
+            filtersBox.getChildren().add(b);
         }
-        return filters;
+        return filtersBox;
     }
 
     private void filterContacts(){
@@ -171,16 +153,17 @@ public class ContactsView {
 
                 Button editButton = new Button("Edit");
                 editButton.setOnAction(editEvent -> {
-                    ViewManager.editContactsView(contact);
+                    try{
+                        ViewManager.editContactsView(contact);
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
+
                 });
 
                 newContact.getChildren().addAll(name, number, email, address, editButton, deleteButton);
                 contactsBox.getChildren().add(newContact);
             }
         }
-    }
-
-    public VBox getView() {
-        return layout;
     }
 }

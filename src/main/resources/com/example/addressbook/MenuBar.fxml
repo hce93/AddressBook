@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+
+<MenuBar xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.addressbook.view.MenuBarController">
+    <Menu text="Menu">
+        <MenuItem text="Contacts" onAction="#loadContactsView"/>
+        <MenuItem text="Add Contacts" onAction="#loadAddContactsView"/>
+        <SeparatorMenuItem/>
+        <MenuItem text="Groups" onAction="#loadGroupsView"/>
+        <MenuItem text="Add Groups" onAction="#addGroupView"/>
+    </Menu>
+</MenuBar>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:controller="com.example.addressbook.view.EditGroupView"
+            xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <fx:include source="MenuBar.fxml"/>
+    </top>
+    <center>
+        <VBox>
+            <Label text="Name: "/>
+            <TextField fx:id="nameField" promptText="Enter name"></TextField>
+
+            <Button text="Submit" defaultButton="true" onAction="#submitEditGroupForm"/>
+        </VBox>
+
+    </center>
+</BorderPane>

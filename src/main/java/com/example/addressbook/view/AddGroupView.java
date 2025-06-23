@@ -3,58 +3,43 @@ package com.example.addressbook.view;
 import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class AddGroupView {
+public class AddGroupView implements Initializable {
 
-    private VBox layout;
+    @FXML private TextField nameField;
 
-    public AddGroupView(){
+    public void initialize(URL url, ResourceBundle rb) {}
 
-        layout = new VBox(10);
-        layout.setPadding(new Insets(20));
+    @FXML
+    private void submitAddGroupForm(){
+        String name = nameField.getText();
 
-        TextField nameField = new TextField();
-        nameField.setPromptText("Enter name");
-
-        Button submitButton = new Button("Submit");
-        submitButton.setDefaultButton(true);
-
-        submitButton.setOnAction(submitted -> {
-            String name = nameField.getText();
-
-            Group group = null;
-            try{
-                group = new Group(name);
-            } catch (IllegalArgumentException e){
-                AlertManager.createErrorAlert(e.getMessage(), "DataValidation Error");
-                e.printStackTrace();
-            }
-            try {
-                ViewManager.getDbHelper().save(group);
-                nameField.setText("");
-                ViewManager.refreshContactsView();
-                ViewManager.refreshAddContactsView();
-                ViewManager.refreshGroupsView();
-                ViewManager.groupsView();
-            } catch (SQLException e) {
-                AlertManager.generateSaveDataError(e, group);
-            }
-        });
-
-        layout.getChildren().addAll(
-                new Label("Name:"), nameField,
-                submitButton
-        );
-    }
-
-    public VBox getView() {
-        return layout;
+        Group group = null;
+        try{
+            group = new Group(name);
+        } catch (IllegalArgumentException e){
+            AlertManager.createErrorAlert(e.getMessage(), "DataValidation Error");
+            e.printStackTrace();
+        }
+        try {
+            ViewManager.getDbHelper().save(group);
+            nameField.setText("");
+            ViewManager.refreshContactsView();
+            ViewManager.refreshAddContactsView();
+            ViewManager.refreshGroupsView();
+            ViewManager.groupsView();
+        } catch (SQLException e) {
+            AlertManager.generateSaveDataError(e, group);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

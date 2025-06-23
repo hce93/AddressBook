@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:controller="com.example.addressbook.view.ContactsView"
+      xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <fx:include source="MenuBar.fxml"/>
+    </top>
+    <center>
+            <VBox>
+                <HBox spacing="5">
+                    <TextField fx:id="searchField" />
+                    <Button text="Search" defaultButton="true" onAction="#searchContacts" />
+                </HBox>
+
+                <ToggleButton fx:id="sortButton" text="A->Z" onAction="#onSortClicked" />
+
+                <HBox fx:id="filtersBox" spacing="5"/>
+                <ScrollPane>
+                    <VBox fx:id="contactsBox" spacing="5" />
+                </ScrollPane>
+            </VBox>
+
+    </center>
+</BorderPane>
