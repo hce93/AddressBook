@@ -1,6 +1,5 @@
-package com.example.addressbook.view;
+package com.example.addressbook.controller;
 
-import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
 import javafx.fxml.FXML;
@@ -12,29 +11,32 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class EditGroupView implements Initializable {
-    private Group group;
+public class AddGroupController implements Initializable {
+
     @FXML private TextField nameField;
 
     public void initialize(URL url, ResourceBundle rb) {}
 
-    public void setGroupToEdit(Group group){
-        this.group = group;
-        this.nameField.setText(group.getName());
-    }
-
     @FXML
-    private void submitEditGroupForm(){
+    private void submitAddGroupForm(){
         String name = nameField.getText();
+
+        Group group = null;
+        try{
+            group = new Group(name);
+        } catch (IllegalArgumentException e){
+            AlertManager.createErrorAlert(e.getMessage(), "DataValidation Error");
+            e.printStackTrace();
+        }
         try {
-            ViewManager.getDbHelper().editGroup(group.getId(), name);
-            ViewManager.refreshGroupsScene();
+            ViewManager.getDbHelper().save(group);
+            nameField.setText("");
             ViewManager.refreshContactsScene();
             ViewManager.refreshAddContactsScene();
+            ViewManager.refreshGroupsScene();
             ViewManager.groupsView();
-        } catch (SQLException e){
-            AlertManager.createErrorAlert("Error editing group: "+group.getName(), "Error Saving Group");
-            e.printStackTrace();
+        } catch (SQLException e) {
+            AlertManager.generateSaveDataError(e, group);
         } catch (IOException e){
             e.printStackTrace();
         }

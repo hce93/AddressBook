@@ -4,13 +4,19 @@ import com.example.addressbook.controller.ViewManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         ViewManager.setStage(primaryStage);
-        ViewManager.loginView();
+        try {
+            ViewManager.loginView();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         primaryStage.show();
     }
 

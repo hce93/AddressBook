@@ -3,7 +3,7 @@
 
 <MenuBar xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.addressbook.view.MenuBarController">
+            fx:controller="com.example.addressbook.controller.MenuBarController">
     <Menu text="Menu">
         <MenuItem text="Contacts" onAction="#loadContactsView"/>
         <MenuItem text="Add Contacts" onAction="#loadAddContactsView"/>

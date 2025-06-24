@@ -1,6 +1,5 @@
-package com.example.addressbook.view;
+package com.example.addressbook.controller;
 
-import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Contact;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class EditContactView implements Initializable {
+public class EditContactController implements Initializable {
     private Contact contact;
     private List<Group> groups = new ArrayList<>();
     private List<Integer> groupsSelected = new ArrayList<>();

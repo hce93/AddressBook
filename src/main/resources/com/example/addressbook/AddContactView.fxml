@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:controller="com.example.addressbook.view.AddContactView"
+<BorderPane fx:controller="com.example.addressbook.controller.AddContactController"
             xmlns:fx="http://javafx.com/fxml">
     <top>
         <fx:include source="MenuBar.fxml"/>

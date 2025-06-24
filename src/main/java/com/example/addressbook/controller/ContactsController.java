@@ -1,6 +1,5 @@
-package com.example.addressbook.view;
+package com.example.addressbook.controller;
 
-import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Contact;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
@@ -20,7 +19,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class ContactsView implements Initializable {
+public class ContactsController implements Initializable {
 
     private List<Contact> contacts;
     private List<Contact> searchedContacts;

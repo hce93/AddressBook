@@ -3,18 +3,15 @@ package com.example.addressbook.controller;
 import com.example.addressbook.model.Contact;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.DatabaseHelper;
-import com.example.addressbook.view.EditContactView;
-import com.example.addressbook.view.EditGroupView;
-import com.example.addressbook.view.LoginView;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Connection;
+
+import static com.example.addressbook.util.ViewManagerHelper.getLoader;
+import static com.example.addressbook.util.ViewManagerHelper.refreshScene;
 
 public class ViewManager {
 
@@ -26,32 +23,16 @@ public class ViewManager {
     private static Scene groupsScene;
     private static Scene addGroupScene;
     private static Scene editGroupScene;
-    private Parent root;
 
     private static DatabaseHelper dbHelper = new DatabaseHelper();
-
     public static void setStage(Stage stage){primaryStage=stage;}
     public static void setConn(Connection connection) {conn = connection;}
     public static Connection getConnection() {return conn;}
     public static DatabaseHelper getDbHelper() {return dbHelper;}
 
-    public static FXMLLoader getLoader(String location){
-        return new FXMLLoader(ViewManager.class.getResource(location));
-    }
-
-    public static Scene refreshScene(String fxmlLocation) throws IOException{
-        FXMLLoader loader = getLoader(fxmlLocation);
-        return refreshScene(loader);
-    }
-
-    public static Scene refreshScene(FXMLLoader loader) throws IOException{
-        Parent root = loader.load();
-        return new Scene(root);
-    }
-
-    public static void loginView() {
-        LoginView login = new LoginView();
-        primaryStage.setScene(createScene(login.getLoginView()));
+    public static void loginView() throws IOException{
+        Scene loginScene = refreshScene("/com/example/addressbook/LoginView.fxml");
+        primaryStage.setScene(loginScene);
         primaryStage.setTitle("Database Login");
     }
 
@@ -82,9 +63,9 @@ public class ViewManager {
 
     public static void editContactsView(Contact contact) throws IOException{
         FXMLLoader loader = getLoader("/com/example/addressbook/EditContactView.fxml");
-        EditContactView view = loader.getController();
-        view.setContactToEdit(contact);
         editContactScene = refreshScene(loader);
+        EditContactController view = loader.getController();
+        view.setContactToEdit(contact);
         primaryStage.setScene(editContactScene);
         primaryStage.setTitle("Edit Contact");
     }
@@ -113,20 +94,11 @@ public class ViewManager {
     }
 
     public static void editGroupView(Group group) throws IOException{
-        FXMLLoader loader = getLoader("/com/example/addressbook/EditGroupView.fxml");
-        EditGroupView view = loader.getController();
-        view.setGroupToEdit(group);
+        FXMLLoader loader = getLoader("/com/example/addressbook/EditGroupView.fxml").load();
         editGroupScene = refreshScene(loader);
+        EditGroupController view = loader.getController();
+        view.setGroupToEdit(group);
         primaryStage.setScene(editGroupScene);
         primaryStage.setTitle("Edit Groups");
     }
-
-    private static Scene createScene(GridPane view){
-        BorderPane root = new BorderPane();
-        root.setCenter(view);
-        Scene scene = new Scene(root);
-        return scene;
-    }
-
-
 }

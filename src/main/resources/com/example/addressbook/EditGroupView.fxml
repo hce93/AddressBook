@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:controller="com.example.addressbook.view.EditGroupView"
+<BorderPane fx:controller="com.example.addressbook.controller.EditGroupController"
             xmlns:fx="http://javafx.com/fxml">
     <top>
         <fx:include source="MenuBar.fxml"/>

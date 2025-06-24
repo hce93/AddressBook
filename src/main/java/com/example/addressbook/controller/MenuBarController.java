@@ -1,4 +1,4 @@
-package com.example.addressbook.view;
+package com.example.addressbook.controller;
 
 import com.example.addressbook.controller.ViewManager;
 import javafx.fxml.FXML;

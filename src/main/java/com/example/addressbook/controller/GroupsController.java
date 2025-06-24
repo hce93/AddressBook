@@ -1,6 +1,5 @@
-package com.example.addressbook.view;
+package com.example.addressbook.controller;
 
-import com.example.addressbook.controller.ViewManager;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
 import javafx.fxml.FXML;
@@ -19,7 +18,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class GroupsView implements Initializable {
+public class GroupsController implements Initializable {
     private List<Group> groups;
     private List<Group> searchedGroups;
     @FXML
