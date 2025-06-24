@@ -76,7 +76,7 @@ public class AddContactView implements Initializable {
             int newId = ViewManager.getDbHelper().save(contact);
             ViewManager.getDbHelper().save(newId, groupsSelected);
             resetPage();
-            ViewManager.refreshContactsView();
+            ViewManager.refreshContactsScene();
             ViewManager.contactsView();
         } catch (SQLException e) {
             AlertManager.generateSaveDataError(e, contact);

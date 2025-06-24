@@ -92,7 +92,7 @@ public class EditContactView implements Initializable {
             if(!groupsToDelete.isEmpty()){
                 ViewManager.getDbHelper().deleteContactGroup(contact.getId(), groupsToDelete);
             }
-            ViewManager.refreshContactsView();
+            ViewManager.refreshContactsScene();
             ViewManager.contactsView();
 
         } catch (SQLException e){

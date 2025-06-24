@@ -28,9 +28,9 @@ public class EditGroupView implements Initializable {
         String name = nameField.getText();
         try {
             ViewManager.getDbHelper().editGroup(group.getId(), name);
-            ViewManager.refreshGroupsView();
-            ViewManager.refreshContactsView();
-            ViewManager.refreshAddContactsView();
+            ViewManager.refreshGroupsScene();
+            ViewManager.refreshContactsScene();
+            ViewManager.refreshAddContactsScene();
             ViewManager.groupsView();
         } catch (SQLException e){
             AlertManager.createErrorAlert("Error editing group: "+group.getName(), "Error Saving Group");

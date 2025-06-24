@@ -85,13 +85,15 @@ public class GroupsView implements Initializable {
                             groups.remove(group);
                             searchedGroups.removeIf(group1 -> (group1==group));
                             // refresh contacts view so group is removed from contacts
-                            ViewManager.refreshContactsView();
-                            ViewManager.refreshAddContactsView();
+                            ViewManager.refreshContactsScene();
+                            ViewManager.refreshAddContactsScene();
                             buildGroups();
                         }
                     } catch (SQLException e) {
                         AlertManager.createErrorAlert(
                                 "Unable to delete group: " + name, "Database Error");
+                        e.printStackTrace();
+                    } catch (IOException e){
                         e.printStackTrace();
                     }
                 });

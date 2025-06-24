@@ -32,9 +32,9 @@ public class AddGroupView implements Initializable {
         try {
             ViewManager.getDbHelper().save(group);
             nameField.setText("");
-            ViewManager.refreshContactsView();
-            ViewManager.refreshAddContactsView();
-            ViewManager.refreshGroupsView();
+            ViewManager.refreshContactsScene();
+            ViewManager.refreshAddContactsScene();
+            ViewManager.refreshGroupsScene();
             ViewManager.groupsView();
         } catch (SQLException e) {
             AlertManager.generateSaveDataError(e, group);
