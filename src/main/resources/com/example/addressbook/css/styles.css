@@ -1,0 +1,60 @@
+.mainBox{
+    -fx-padding: 10 0 0 0;
+}
+
+.SearchSortBox, .filterSortHolder, .searchSortHolder, #sortHolder{
+    -fx-padding: 5
+
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-margin:0;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+
+}
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.button, .toggle-button {
+    -fx-pref-height: 30px;
+}
+
+#sortButton {
+    -fx-translate-y: 1;
+}
+
+#groupSortButton {
+    -fx-translate-y: -1;
+}
+
+#contactCard, #groupCard{
+    -fx-padding: 5;
+    -fx-border-color: gray transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+#contactName, #groupName{
+    -fx-font: bold 14px "Arial"
+}
+
+#contactsButtonHolder, #groupsButtonHolder{
+    -fx-padding: 5 0 0 0;
+}
+
+#groupSortButton{
+    -fx-padding:5;
+}

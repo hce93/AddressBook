@@ -83,7 +83,9 @@ public class ContactsController implements Initializable {
 
         for (Group group : groups){
             ToggleButton b = new ToggleButton(group.getName());
-
+            b.prefHeightProperty().bind(sortButton.heightProperty());
+            b.minHeightProperty().bind(sortButton.heightProperty());
+            b.maxHeightProperty().bind(sortButton.heightProperty());
             b.setOnAction(pressed -> {
                 if(b.isSelected()){
                     // add filter
@@ -129,10 +131,16 @@ public class ContactsController implements Initializable {
         } else {
             for (Contact contact : displayContacts) {
                 VBox newContact = new VBox();
+                newContact.setId("contactCard");
                 Label name = new Label(contact.getName());
+                name.setId("contactName");
                 Label number = new Label(contact.getNumber());
                 Label email = new Label(contact.getEmail());
                 Label address = new Label(contact.getAddress());
+
+                HBox buttonsHolder = new HBox();
+                buttonsHolder.setId("contactsButtonHolder");
+                buttonsHolder.setSpacing(5);
 
                 Button deleteButton = new Button("Delete");
                 deleteButton.setOnAction(deleteEvent -> {
@@ -159,8 +167,8 @@ public class ContactsController implements Initializable {
                     }
 
                 });
-
-                newContact.getChildren().addAll(name, number, email, address, editButton, deleteButton);
+                buttonsHolder.getChildren().addAll(deleteButton, editButton);
+                newContact.getChildren().addAll(name, number, email, address, buttonsHolder);
                 contactsBox.getChildren().add(newContact);
             }
         }

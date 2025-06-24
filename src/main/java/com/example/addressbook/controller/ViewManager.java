@@ -94,7 +94,7 @@ public class ViewManager {
     }
 
     public static void editGroupView(Group group) throws IOException{
-        FXMLLoader loader = getLoader("/com/example/addressbook/EditGroupView.fxml").load();
+        FXMLLoader loader = getLoader("/com/example/addressbook/EditGroupView.fxml");
         editGroupScene = refreshScene(loader);
         EditGroupController view = loader.getController();
         view.setGroupToEdit(group);

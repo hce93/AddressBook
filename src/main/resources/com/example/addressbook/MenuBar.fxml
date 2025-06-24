@@ -4,11 +4,14 @@
 <MenuBar xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.addressbook.controller.MenuBarController">
-    <Menu text="Menu">
-        <MenuItem text="Contacts" onAction="#loadContactsView"/>
-        <MenuItem text="Add Contacts" onAction="#loadAddContactsView"/>
+    <Menu text="Contacts">
+        <MenuItem text="ViewContacts" onAction="#loadContactsView"/>
         <SeparatorMenuItem/>
-        <MenuItem text="Groups" onAction="#loadGroupsView"/>
+        <MenuItem text="Add Contacts" onAction="#loadAddContactsView"/>
+    </Menu>
+    <Menu text = "Groups">
+        <MenuItem text="View Groups" onAction="#loadGroupsView"/>
+        <SeparatorMenuItem/>
         <MenuItem text="Add Groups" onAction="#addGroupView"/>
     </Menu>
 </MenuBar>

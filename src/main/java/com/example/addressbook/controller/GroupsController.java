@@ -23,10 +23,9 @@ public class GroupsController implements Initializable {
     private List<Group> searchedGroups;
     @FXML
     private TextField searchField;
-    @FXML private HBox filtersBox;
     @FXML private VBox groupsBox;
     @FXML private Label noGroupsLabel;
-    @FXML private ToggleButton sortButton;
+    @FXML private ToggleButton groupSortButton;
     private boolean sortAtoZ = true;
 
     public void initialize(URL url, ResourceBundle rb) {
@@ -45,10 +44,10 @@ public class GroupsController implements Initializable {
     private void onSortClicked(){
         Collections.reverse(groups);
         Collections.reverse(searchedGroups);
-        if (sortButton.isSelected()) {
-            sortButton.setText("Z->A");
+        if (groupSortButton.isSelected()) {
+            groupSortButton.setText("Z->A");
         } else {
-            sortButton.setText("A->Z");
+            groupSortButton.setText("A->Z");
         }
         buildGroups();
     }
@@ -75,7 +74,13 @@ public class GroupsController implements Initializable {
             noGroupsLabel.setText("");
             for (Group group : searchedGroups) {
                 VBox newGroup = new VBox();
+                newGroup.setId("groupCard");
                 Label name = new Label(group.getName());
+                name.setId("groupName");
+
+                HBox buttonsHolder = new HBox();
+                buttonsHolder.setId("groupsButtonHolder");
+                buttonsHolder.setSpacing(5);
 
                 Button deleteButton = new Button("Delete");
                 deleteButton.setOnAction(deleteEvent -> {
@@ -105,11 +110,10 @@ public class GroupsController implements Initializable {
                         e.printStackTrace();
                     }
                 });
-
+                buttonsHolder.getChildren().addAll(deleteButton, editButton);
                 newGroup.getChildren().addAll(
                         name,
-                        editButton,
-                        deleteButton);
+                        buttonsHolder);
                 groupsBox.getChildren().add(newGroup);
             }
         }

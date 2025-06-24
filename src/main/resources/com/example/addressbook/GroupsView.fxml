@@ -3,21 +3,27 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane fx:controller="com.example.addressbook.controller.GroupsController"
-            xmlns:fx="http://javafx.com/fxml">
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@css/styles.css">
     <top>
         <fx:include source="MenuBar.fxml"/>
     </top>
     <center>
-        <VBox>
-            <HBox spacing="5">
-                <TextField fx:id="searchField" />
-                <Button text="Search" defaultButton="true" onAction="#searchGroups" />
+        <VBox styleClass="mainBox">
+            <HBox styleClass="searchSortHolder" prefHeight="30" minHeight="30" maxHeight="30" alignment="TOP_CENTER">
+                <HBox styleClass="SearchSortBox" spacing="5" alignment="CENTER">
+                    <TextField fx:id="searchField" />
+                    <Button text="Search" defaultButton="true" onAction="#searchGroups" />
+                </HBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <VBox id="sortHolder">
+                    <ToggleButton fx:id="groupSortButton" text="A->Z" onAction="#onSortClicked" id="groupSortButton"/>
+                </VBox>
             </HBox>
 
-            <ToggleButton fx:id="sortButton" text="A->Z" onAction="#onSortClicked" />
 
             <Label fx:id="noGroupsLabel" text=""/>
-            <ScrollPane>
+            <ScrollPane fitToWidth="true">
                 <VBox fx:id="groupsBox" spacing="5" />
             </ScrollPane>
 
