@@ -10,6 +10,7 @@
     </top>
     <center>
         <VBox styleClass="main">
+            <VBox styleClass="formInput" fx:id="returnBox"/>
             <VBox styleClass="formInput">
                 <Label text="Name: "/>
                 <TextField fx:id="nameField" promptText="Enter name"></TextField>

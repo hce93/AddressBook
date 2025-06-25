@@ -4,7 +4,9 @@ import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +18,7 @@ public class GroupFormController implements Initializable {
     private boolean editMode=false;
     @FXML Group group;
     @FXML private TextField nameField;
+    @FXML private VBox returnBox;
 
     public void initialize(URL url, ResourceBundle rb) {}
 
@@ -23,7 +26,21 @@ public class GroupFormController implements Initializable {
         this.group = group;
         this.nameField.setText(group.getName());
         this.editMode=true;
+        getReturnButton();
     }
+
+    private void getReturnButton(){
+        Button returnButton = new Button("Back");
+        returnButton.setOnAction(pressed -> {
+            try {
+                ViewManager.groupsView();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        });
+        returnBox.getChildren().add(returnButton);
+    }
+
     @FXML
     private void submitGroupForm(){
         String name = nameField.getText();

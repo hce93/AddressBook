@@ -6,6 +6,7 @@ import com.example.addressbook.util.AlertManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.CheckComboBox;
@@ -29,6 +30,7 @@ public class ContactFormController implements Initializable {
     @FXML private TextField emailField;
     @FXML private TextField addressField;
     @FXML private VBox comboBoxHolder;
+    @FXML private VBox returnBox;
 
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -51,6 +53,20 @@ public class ContactFormController implements Initializable {
         emailField.setText(contact.getEmail());
         addressField.setText(contact.getAddress());
         loadGroups();
+        getReturnButton();
+
+    }
+
+    private void getReturnButton(){
+        Button returnButton = new Button("Back");
+        returnButton.setOnAction(pressed -> {
+            try {
+                ViewManager.contactsView();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        });
+        returnBox.getChildren().add(returnButton);
     }
 
     private void loadGroups(){
