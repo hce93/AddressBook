@@ -2,7 +2,7 @@
     -fx-padding: 10 0 10 0;
 }
 #loginBox{
-    -fx-padding:20;
+    -fx-padding:10 20 10 20;
 }
 
 .SearchSortBox, .filterSortHolder, .searchSortHolder, #sortHolder{
@@ -47,6 +47,11 @@
 
 #groupSortButton {
     -fx-translate-y: -1;
+}
+
+#groupsComboBox {
+    -fx-min-width: 200;
+    -fx-max-width: 200;
 }
 
 #contactCard, #groupCard{

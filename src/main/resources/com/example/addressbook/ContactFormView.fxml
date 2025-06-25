@@ -26,9 +26,8 @@
                 <Label text="Address: "/>
                 <TextField fx:id="addressField" promptText="Enter address"></TextField>
             </VBox>
-            <VBox styleClass="formInput">
-                <TilePane fx:id="groupsTilePane"></TilePane>
-            </VBox>
+            <VBox fx:id="comboBoxHolder" styleClass="formInput" />
+
             <HBox styleClass="formButtonHolder">
                 <Button text="Submit" defaultButton="true" onAction="#submitContactForm" styleClass="formButton"/>
                 <Region prefWidth="10"/>
