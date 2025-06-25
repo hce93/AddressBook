@@ -1,10 +1,18 @@
 .mainBox{
-    -fx-padding: 10 0 0 0;
+    -fx-padding: 10 0 10 0;
+}
+#loginBox{
+    -fx-padding:20;
 }
 
 .SearchSortBox, .filterSortHolder, .searchSortHolder, #sortHolder{
     -fx-padding: 5
+}
 
+.SearchSortBox {
+    -fx-pref-height: 30px;
+    -fx-min-height:30px;
+    fx-max-height:30px;
 }
 
 .scroll-pane {
@@ -58,3 +66,12 @@
 #groupSortButton{
     -fx-padding:5;
 }
+
+.formInput, .formButtonHolder{
+    -fx-padding: 5;
+}
+
+.formButton{
+    -fx-padding: 5;
+}
+

@@ -50,7 +50,7 @@ public class ViewManager {
     }
 
     public static void refreshAddContactsScene() throws IOException{
-        addContactScene = refreshScene("/com/example/addressbook/AddContactView.fxml");
+        addContactScene = refreshScene("/com/example/addressbook/ContactFormView.fxml");
     }
 
     public static void addContactsView() throws IOException{
@@ -58,13 +58,13 @@ public class ViewManager {
             refreshAddContactsScene();
         }
         primaryStage.setScene(addContactScene);
-        primaryStage.setTitle("Add Contacts");
+        primaryStage.setTitle("Add Contact");
     }
 
     public static void editContactsView(Contact contact) throws IOException{
-        FXMLLoader loader = getLoader("/com/example/addressbook/EditContactView.fxml");
+        FXMLLoader loader = getLoader("/com/example/addressbook/ContactFormView.fxml");
         editContactScene = refreshScene(loader);
-        EditContactController view = loader.getController();
+        ContactFormController view = loader.getController();
         view.setContactToEdit(contact);
         primaryStage.setScene(editContactScene);
         primaryStage.setTitle("Edit Contact");
@@ -82,7 +82,7 @@ public class ViewManager {
     }
 
     public static void refreshAddGroupsScene() throws IOException{
-        addGroupScene = refreshScene("/com/example/addressbook/AddGroupView.fxml");
+        addGroupScene = refreshScene("/com/example/addressbook/GroupFormView.fxml");
     }
 
     public static void addGroupsView() throws IOException{
@@ -90,15 +90,15 @@ public class ViewManager {
             refreshAddGroupsScene();
         }
         primaryStage.setScene(addGroupScene);
-        primaryStage.setTitle("Add Groups");
+        primaryStage.setTitle("Add Group");
     }
 
     public static void editGroupView(Group group) throws IOException{
-        FXMLLoader loader = getLoader("/com/example/addressbook/EditGroupView.fxml");
+        FXMLLoader loader = getLoader("/com/example/addressbook/GroupFormView.fxml");
         editGroupScene = refreshScene(loader);
-        EditGroupController view = loader.getController();
+        GroupFormController view = loader.getController();
         view.setGroupToEdit(group);
         primaryStage.setScene(editGroupScene);
-        primaryStage.setTitle("Edit Groups");
+        primaryStage.setTitle("Edit Group");
     }
 }

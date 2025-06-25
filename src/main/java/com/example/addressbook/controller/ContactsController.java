@@ -126,6 +126,7 @@ public class ContactsController implements Initializable {
         updateDisplayContacts();
         contactsBox.getChildren().clear();
         if (displayContacts.isEmpty()){
+
             Label emptyLabel = new Label("You have no contacts");
             contactsBox.getChildren().add(emptyLabel);
         } else {

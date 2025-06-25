@@ -8,14 +8,21 @@
 
 <GridPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.addressbook.controller.LoginController">
-    <VBox>
-        <Label text="Username: "/>
-        <TextField fx:id="usernameField" promptText="username"></TextField>
+            fx:controller="com.example.addressbook.controller.LoginController"
+            stylesheets="@css/styles.css">
+    <VBox id="loginBox">
+        <VBox styleClass="formInput">
+            <Label text="Username: "/>
+            <TextField fx:id="usernameField" promptText="username"></TextField>
+        </VBox>
 
-        <Label text="Password: "/>
-        <PasswordField fx:id="pwField" promptText="password"></PasswordField>
+        <VBox styleClass="formInput">
+            <Label text="Password: "/>
+            <PasswordField fx:id="pwField" promptText="password"></PasswordField>
+        </VBox>
 
-        <Button text="Login" onAction="#login" defaultButton="true"/>
+        <VBox styleClass="formButtonHolder">
+            <Button text="Login" onAction="#login" defaultButton="true"/>
+        </VBox>
     </VBox>
 </GridPane>

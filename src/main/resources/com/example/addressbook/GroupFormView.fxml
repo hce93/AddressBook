@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:controller="com.example.addressbook.controller.GroupFormController"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@css/styles.css">
+    <top>
+        <fx:include source="MenuBar.fxml"/>
+    </top>
+    <center>
+        <VBox styleClass="main">
+            <VBox styleClass="formInput">
+                <Label text="Name: "/>
+                <TextField fx:id="nameField" promptText="Enter name"></TextField>
+            </VBox>
+            <HBox styleClass="formButtonHolder">
+                <Button text="Submit" defaultButton="true" onAction="#submitGroupForm" styleClass="formButton"/>
+            </HBox>
+        </VBox>
+
+    </center>
+</BorderPane>

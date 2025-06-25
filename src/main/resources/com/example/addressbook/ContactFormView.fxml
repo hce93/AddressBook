@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:controller="com.example.addressbook.controller.ContactFormController"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@css/styles.css">
+    <top>
+        <fx:include source="MenuBar.fxml"/>
+    </top>
+    <center>
+        <VBox styleClass="main">
+            <VBox styleClass="formInput">
+                <Label text="Name: "/>
+                <TextField fx:id="nameField" promptText="Enter name"></TextField>
+            </VBox>
+            <VBox styleClass="formInput">
+                <Label text="Number: "/>
+                <TextField fx:id="numberField" promptText="Enter number"></TextField>
+            </VBox>
+            <VBox styleClass="formInput">
+                <Label text="Email: "/>
+                <TextField fx:id="emailField" promptText="Enter email"></TextField>
+            </VBox>
+            <VBox styleClass="formInput">
+                <Label text="Address: "/>
+                <TextField fx:id="addressField" promptText="Enter address"></TextField>
+            </VBox>
+            <VBox styleClass="formInput">
+                <TilePane fx:id="groupsTilePane"></TilePane>
+            </VBox>
+            <HBox styleClass="formButtonHolder">
+                <Button text="Submit" defaultButton="true" onAction="#submitContactForm" styleClass="formButton"/>
+                <Region prefWidth="10"/>
+                <Button text="Reset" onAction="#resetPage" styleClass="formButton"/>
+            </HBox>
+        </VBox>
+
+    </center>
+</BorderPane>
