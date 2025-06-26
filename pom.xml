@@ -16,6 +16,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit</artifactId>
+            <version>4.0.18</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.6</version>
@@ -80,6 +87,7 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

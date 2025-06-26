@@ -3,6 +3,7 @@ package com.example.addressbook.controller;
 import com.example.addressbook.model.Contact;
 import com.example.addressbook.model.Group;
 import com.example.addressbook.util.AlertManager;
+import com.example.addressbook.util.DatabaseHelper;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,9 +33,19 @@ public class ContactFormController implements Initializable {
     @FXML private VBox comboBoxHolder;
     @FXML private VBox returnBox;
 
+    //below is db helper is used for purpose of testing
+    private DatabaseHelper dbHelper;
+    void setDbHelper(DatabaseHelper dbHelper){
+        this.dbHelper = dbHelper;
+    }
+
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            groups = ViewManager.getDbHelper().getGroups();
+            if (dbHelper==null) {
+                groups = ViewManager.getDbHelper().getGroups();
+            } else {
+                groups = dbHelper.getGroups();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,8 +124,11 @@ public class ContactFormController implements Initializable {
                 ViewManager.getDbHelper().save(newId, groupsSelected);
                 resetPage();
             }
-            ViewManager.refreshContactsScene();
-            ViewManager.contactsView();
+            if (dbHelper==null) {
+                // if dbHelper is not null then testing is happening and we don't need to change views
+                ViewManager.refreshContactsScene();
+                ViewManager.contactsView();
+            }
 
         } catch (SQLException e) {
             AlertManager.generateSaveDataError(e, newContact);
@@ -123,6 +137,9 @@ public class ContactFormController implements Initializable {
         }
     }
 
+    void submitFormForTesting(){
+        submitContactForm();
+    }
     @FXML
     private void resetPage() {
         nameField.setText("");
