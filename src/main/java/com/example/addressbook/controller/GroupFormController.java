@@ -19,6 +19,7 @@ public class GroupFormController implements Initializable {
     @FXML Group group;
     @FXML private TextField nameField;
     @FXML private VBox returnBox;
+    boolean testMode = false;
 
     public void initialize(URL url, ResourceBundle rb) {}
 
@@ -64,14 +65,20 @@ public class GroupFormController implements Initializable {
                 AlertManager.generateSaveDataError(e, group);
             }
         }
-
-        try {
-            ViewManager.refreshContactsScene();
-            ViewManager.refreshAddContactsScene();
-            ViewManager.refreshGroupsScene();
-            ViewManager.groupsView();
-        } catch (IOException e){
-            e.printStackTrace();
+        if (!testMode) {
+            try {
+                ViewManager.refreshContactsScene();
+                ViewManager.refreshAddContactsScene();
+                ViewManager.refreshGroupsScene();
+                ViewManager.groupsView();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    void submitFormForTesting(){
+        testMode = true;
+        submitGroupForm();
     }
 }

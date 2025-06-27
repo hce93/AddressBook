@@ -59,13 +59,14 @@ public class ContactFormController implements Initializable {
     public void setContactToEdit(Contact contact) {
         this.contact = contact;
         this.editMode = true;
-        nameField.setText(contact.getName());
-        numberField.setText(contact.getNumber());
-        emailField.setText(contact.getEmail());
-        addressField.setText(contact.getAddress());
-        loadGroups();
-        getReturnButton();
-
+        if (dbHelper==null){
+            nameField.setText(contact.getName());
+            numberField.setText(contact.getNumber());
+            emailField.setText(contact.getEmail());
+            addressField.setText(contact.getAddress());
+            loadGroups();
+            getReturnButton();
+        }
     }
 
     private void getReturnButton(){
