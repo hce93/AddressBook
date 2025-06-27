@@ -1,9 +1,13 @@
 package com.example.addressbook;
 
+import com.example.addressbook.model.Contact;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class TestHelper {
@@ -26,6 +30,33 @@ public class TestHelper {
                 url, username, password);
         conn.setAutoCommit(false);
         return conn;
+    }
+    public static Contact getContactForTesting(String SQLStatement, Connection conn) throws Exception{
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(SQLStatement);
+        String returnedName = "";
+        String returnedNumber = "";
+        String returnedEmail = "";
+        String returnedAddress = "";
+        if (rs.next()){
+            returnedName = rs.getString("name");
+            returnedNumber = rs.getString("number");
+            returnedEmail = rs.getString("email");
+            returnedAddress = rs.getString("address");
+        }
+        Contact newContact = new Contact(returnedName, returnedNumber, returnedEmail, returnedAddress);
+        return newContact;
+    }
+
+    public static Integer getContactGroupForTesting(String SQLStatement, Connection conn) throws Exception {
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(SQLStatement);
+        Integer group_id = -1;
+        if (rs.next()){
+            group_id = rs.getInt("contact_groups_id");
+        }
+        return group_id;
     }
 
 }

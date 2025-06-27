@@ -15,7 +15,6 @@ import org.testfx.framework.junit.ApplicationTest;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 import static org.junit.Assert.assertEquals;
@@ -67,22 +66,13 @@ public class ContactFormControllerTest extends ApplicationTest {
         controller.submitFormForTesting();
 
         String sql = "SELECT * FROM address WHERE name = 'Test Contact'";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-        String returnedName = "";
-        String returnedNumber = "";
-        String returnedEmail = "";
-        String returnedAddress = "";
-        if (rs.next()){
-            returnedName = rs.getString("name");
-            returnedNumber = rs.getString("number");
-            returnedEmail = rs.getString("email");
-            returnedAddress = rs.getString("address");
-        }
-        assertEquals(name, returnedName);
-        assertEquals(number, returnedNumber);
-        assertEquals(email, returnedEmail);
-        assertEquals(address, returnedAddress);
+        Contact newContact = TestHelper.getContactForTesting(sql, conn);
+
+        assertEquals(name, newContact.getName());
+        assertEquals(number, newContact.getNumber());
+        assertEquals(email, newContact.getEmail());
+        assertEquals(address, newContact.getAddress());
+
     }
 
     @Test
@@ -105,18 +95,11 @@ public class ContactFormControllerTest extends ApplicationTest {
 
         Contact originalContact = new Contact(name, number, email, address);;
         controller.setContactToEdit(originalContact);
-
         controller.submitFormForTesting();
 
         sql = "SELECT * FROM address WHERE name = 'Test Contact 2'";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-        String returnedName = "";
-
-        if (rs.next()){
-            returnedName = rs.getString("name");
-        }
-        assertEquals(updatedName, returnedName);
+        Contact newContact = TestHelper.getContactForTesting(sql, conn);
+        assertEquals(updatedName, newContact.getName());
     }
 
     @After

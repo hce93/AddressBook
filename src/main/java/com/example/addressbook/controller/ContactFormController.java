@@ -34,9 +34,11 @@ public class ContactFormController implements Initializable {
     @FXML private VBox returnBox;
 
     //below is db helper is used for purpose of testing
+    private boolean testMode = false;
     private DatabaseHelper dbHelper;
     void setDbHelper(DatabaseHelper dbHelper){
         this.dbHelper = dbHelper;
+        this.testMode=true;
     }
 
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,7 +61,7 @@ public class ContactFormController implements Initializable {
     public void setContactToEdit(Contact contact) {
         this.contact = contact;
         this.editMode = true;
-        if (dbHelper==null){
+        if (!testMode){
             nameField.setText(contact.getName());
             numberField.setText(contact.getNumber());
             emailField.setText(contact.getEmail());
@@ -125,7 +127,7 @@ public class ContactFormController implements Initializable {
                 ViewManager.getDbHelper().save(newId, groupsSelected);
                 resetPage();
             }
-            if (dbHelper==null) {
+            if (!testMode) {
                 // if dbHelper is not null then testing is happening and we don't need to change views
                 ViewManager.refreshContactsScene();
                 ViewManager.contactsView();

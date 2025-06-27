@@ -30,14 +30,21 @@ public class DatabaseHelper {
         return id;
     }
 
-    public void save(Group group) throws SQLException {
+    public Integer save(Group group) throws SQLException {
+        Integer id = -1;
         String sql = String.format(
                 "INSERT INTO contact_groups (name) VALUES ('%s')",
                 group.getName());
 
         try(PreparedStatement stmt = ViewManager.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             stmt.executeUpdate();
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()){
+                if (generatedKeys.next()){
+                    id = generatedKeys.getInt(1);
+                }
+            }
         }
+        return id;
     }
 
     public void save(Integer contact_id, List<Integer> group_ids) throws SQLException{
