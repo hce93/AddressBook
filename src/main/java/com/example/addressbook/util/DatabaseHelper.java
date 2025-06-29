@@ -10,6 +10,8 @@ import java.util.List;
 
 public class DatabaseHelper {
 
+    String DBName = "";
+
     public Integer save(Contact contact) throws SQLException {
         String sql = "INSERT INTO address (name, number, email, address) VALUES (?, ?, ?, ?)";
         Integer id=-1;
@@ -62,8 +64,8 @@ public class DatabaseHelper {
     public List<Contact> getContacts() throws SQLException{
         List<Contact> contactList = new ArrayList<>();
         String sql = "SELECT a.*,GROUP_CONCAT(ag.contact_groups_id SEPARATOR ',') AS contact_groups\n" +
-                "FROM address_book.address a\n" +
-                "LEFT JOIN address_book.address_contact_groups ag ON a.id = ag.address_id\n" +
+                "FROM "+DatabaseConfig.DB_NAME+".address a\n" +
+                "LEFT JOIN "+DatabaseConfig.DB_NAME+".address_contact_groups ag ON a.id = ag.address_id\n" +
                 "GROUP BY  a.id;";
         try(Statement stmt = ViewManager.getConnection().createStatement()){
             ResultSet rs = stmt.executeQuery(sql);
@@ -146,8 +148,6 @@ public class DatabaseHelper {
         }
     }
 
-
-
     public void deleteContactGroup(Integer contact_id, List<Integer> group_ids) throws SQLException{
         for (Integer group : group_ids){
             String sql = String.format("DELETE FROM address_contact_groups " +
@@ -158,7 +158,5 @@ public class DatabaseHelper {
             }
         }
     }
-
-
 
 }

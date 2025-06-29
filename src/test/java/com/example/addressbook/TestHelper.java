@@ -58,5 +58,4 @@ public class TestHelper {
         }
         return group_id;
     }
-
 }
