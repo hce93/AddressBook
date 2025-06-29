@@ -9,7 +9,7 @@ Database handled using *MySQL*. Assumes a user has been created in MySQL with a 
 Database config is stored in the DatabaseConfig java file. 
 
 
-Testing has been added. For a number of tests user credentials are required to log into the database. This should be placed in a test.properties file inside the config folder in the below format:
+Testing has been added. For a number of tests user credentials are required to log into the database. This should be placed in a test.properties file inside a config folder in root folder. Data should be in the below format:
 - db.url = *your_database_url*
 - db.user = *your_username*
 - db.password = *your_password*
