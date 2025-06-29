@@ -4,8 +4,10 @@ Address book app using JavaFX. Includes contact cards as well as groups to help 
 
 Allows CRUD operations for both contacts and groups, as well as searching and filtering features. 
 
-Database handled using *MySQL*. Currently only allows the user that owns the database to login and interact with the app.
-Assumes database structure has already been set up as it stands. This will be changed.
+Database handled using *MySQL*. Assumes a user has been created in MySQL with a valid username and password. When the user logs in for the first time the database will be created with the relevant tables. This is assuming a database with the name address_book has not already been set up.
+
+Database config is stored in the DatabaseConfig java file. 
+
 
 Testing has been added. For a number of tests user credentials are required to log into the database. This should be placed in a test.properties file inside the config folder in the below format:
 - db.url = *your_database_url*
